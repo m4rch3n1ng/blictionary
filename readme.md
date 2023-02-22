@@ -4,7 +4,7 @@
 
 entries are stored as json files in a directory called `entries`  
 the json file names should follow the convention `[id].json`, with `[id]` following the regex of `/^[1-9][0-9]*$`  
-**be aware: the directory with the entires *must* be in the directory of the *terminal* when executing**
+**be aware: the directory with the entries *must* be in the directory of the *terminal* when executing**
 
 you can look at the type definition for an `Entry` [here](./src/lib/entry.ts).
 
@@ -37,7 +37,7 @@ $ cd build/
 $ node .
 ```
 
-**be aware: the directory with the entires *must* be in the directory of the *terminal* when executing**
+**be aware: the directory with the entries *must* be in the directory of the *terminal* when executing**
 
 ## misc
 
