@@ -1,0 +1,36 @@
+/* todo theme */
+/* todo dark mode */
+/* todo sand mode */
+
+:root {
+	/* -- color -- */
+	/* global */
+	--text-color: #000;
+
+	/* head */
+	--header-background: #00808080;
+	--search-container-background: #e8e8e8;
+	--search-input-background: #00000014;
+	--search-input-text-color: #0e0e10;
+	--search-input-focus-background: #fff;
+	--search-input-focus-border: #008080;
+	--search-item-focus-background: #008080;
+
+	/* view */
+	--view-title-text-color: #cc2127;
+
+	/* markdown */
+	--md-link-color: #008080;
+
+	/* -- size -- */
+	/* global */
+	--font-size-h: 2rem;
+	--font-size-l: 1.2rem;
+	--font-size-n: 1rem;
+	--font-size-s: 0.8rem;
+
+	/* head */
+	--header-item-height: 36px;
+	--search-input-max-size: 400px;
+	--header-height: 50px;
+}

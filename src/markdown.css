@@ -1,0 +1,36 @@
+.md-word {
+	font-variant: small-caps;
+}
+
+.md-link {
+	display: inline-block;
+	position: relative;
+	color: var(--md-link-color);
+	text-decoration: 0;
+}
+
+/* todo check a11y */
+/* .md-link:focus {
+	outline: none;
+} */
+
+.md-link::before {
+	content: "";
+	position: absolute;
+	display: block;
+	width: 100%;
+	height: 1px;
+	bottom: 0px;
+	left: 0;
+	background-color: var(--md-link-color);
+	transform: scaleX(0);
+	transition: transform 0.2s ease;
+}
+
+.md-link:hover::before {
+	transform: scaleX(1);
+}
+
+.md-link:focus::before {
+	transform: scaleX(1);
+}

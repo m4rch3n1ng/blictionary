@@ -1,0 +1,46 @@
+{
+	"compilerOptions": {
+		/* - project options - */
+		"isolatedModules": true,
+		"lib": [ "esnext", "dom" ],
+		"module": "esnext",
+		"removeComments": true,
+		"sourceMap": true,
+		"target": "esnext",
+
+		/* - strict checks - */
+		"alwaysStrict": true,
+		"noImplicitAny": true,
+		"noImplicitThis": true,
+		"strict": true,
+		"strictBindCallApply": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+
+		/* - linter checks - */
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+
+		/* - module resolution - */
+		"baseUrl": ".",
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"types": [ "svelte" ],
+		"paths": {
+			"$lib": [ "src/lib" ],
+			"$lib/*": [ "src/lib/*" ]
+		},
+
+		/* - advanced - */
+		"forceConsistentCasingInFileNames": true,
+		"importsNotUsedAsValues": "error",
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+	},
+	"include": [ "src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte" ],
+	"extends": "./.svelte-kit/tsconfig.json"
+}
