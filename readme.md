@@ -37,7 +37,7 @@ $ cd build/
 $ node .
 ```
 
-**be aware: the directory with the entires *must* be in the directory of the *terminal* when executing**
+**be aware: the directory with the entries *must* be in the directory of the *terminal* when executing**
 
 ## misc
 
