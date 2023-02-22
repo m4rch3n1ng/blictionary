@@ -11,8 +11,10 @@ export default {
 			mode: "auto",
 			directives: {
 				"default-src": [ "self" ],
+				"script-src": [ "self" ], // todo fix "strict-dynamic"
 				"style-src": [ "self", "unsafe-inline" ],
-				"script-src": [ "strict-dynamic" ],
+				"font-src": [ "self", "data:" ],
+				"img-src": [ "self", "data:" ],
 				"base-uri": [ "none" ],
 				"child-src": [ "none" ]
 			}
