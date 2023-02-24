@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { makeClass } from "$lib/markdown"
+	import { wordClassToString } from "$lib/markdown"
 
 	export let id: string
 	export let word: string
@@ -15,8 +15,7 @@
 		<p>
 			{word},
 			{#if Array.isArray(wordClass)}
-				<!-- todo wordClass: string[] -->
-				{@html makeClass(wordClass, true)}
+				{@html wordClassToString(wordClass, true)}
 			{:else}
 				<em>{wordClass}</em>
 			{/if}

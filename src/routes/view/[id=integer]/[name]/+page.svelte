@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from "./$types"
-	import { initMark, makeClass, markdown } from "$lib/markdown"
+	import { initMark, wordClassToString, markdown } from "$lib/markdown"
 	import Definitions from "./definitions.svelte"
 	import "./item.css"
 
@@ -11,7 +11,7 @@
 </script>
 
 <svelte:head>
-	<title>{entry.word}, {Array.isArray(entry.class) ? makeClass(entry.class, false) : entry.class}</title> <!-- todo cleanup ? -->
+	<title>{entry.word}, {Array.isArray(entry.class) ? wordClassToString(entry.class, false) : entry.class}</title> <!-- todo cleanup ? -->
 </svelte:head>
 
 {#key entry}
@@ -20,7 +20,7 @@
 		<h1>
 			{entry.word},
 			{#if Array.isArray(entry.class)}
-				{@html makeClass(entry.class, true)}
+				{@html wordClassToString(entry.class, true)}
 			{:else}
 				<em>{entry.class}</em>
 			{/if}

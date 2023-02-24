@@ -3,10 +3,10 @@
 
 :root {
 	font-size: 16px;
+	font-family: Georgia, Times, "Times New Roman", serif;
 }
 
 * {
-	font-family: Georgia, Times, "Times New Roman", serif;
 	margin: 0;
 	box-sizing: border-box;
 }
@@ -24,7 +24,6 @@ code {
 	font-size: 0.9rem;
 	display: inline-block;
 	height: 0.9rem;
-	/* line-height: 0; */
 }
 
 .note {

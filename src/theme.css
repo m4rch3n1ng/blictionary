@@ -6,6 +6,7 @@
 	/* -- color -- */
 	/* global */
 	--text-color: #000;
+	--h-color: #008080;
 
 	/* head */
 	--header-background: #00808080;
@@ -24,7 +25,7 @@
 
 	/* -- size -- */
 	/* global */
-	--font-size-h: 2rem;
+	--font-size-h: 2.2rem;
 	--font-size-l: 1.2rem;
 	--font-size-n: 1rem;
 	--font-size-s: 0.8rem;
