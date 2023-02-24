@@ -54,7 +54,7 @@
 					<input bind:value on:input={search} on:focus={focusIn} on:focusin={focusIn} on:keydown={keydown}
 						type="search"
 						name="q"
-						class="input"
+						class="input font-mono"
 						placeholder="search"
 						aria-label="search"
 						aria-haspopup="grid"
@@ -91,32 +91,32 @@
 <style>
 	.wrap {
 		flex-basis: var(--search-input-max-size);
+		
 		position: relative;
+
+		max-width: var(--search-input-max-size);
 		height: var(--header-height);
-		padding: 2px 0;
+		width: 100%;
+		
 		border: 0;
-		vertical-align: baseline;
+
+		padding: 2px 0;
 	}
 
 	.inner {
 		height: inherit;
-		max-width: var(--search-input-max-size);
+
+		display: flex;
+		align-items: center;
 	}
 
 	.search-container {
-		position: relative;
-		z-index: 100;
+		width: 100%;
 	}
 
 	.input-container {
 		position: relative;
-		padding: 5px;
 		z-index: 100;
-	}
-
-	.input-layout {
-		width: 100%;
-		display: flex;
 	}
 
 	.dropdown-container {
@@ -138,7 +138,6 @@
 		display: block;
 		width: 100%;
 		height: 36px;
-		font-family: inherit;
 		appearance: none;
 		background-clip: padding-box;
 		line-height: 1.5;
