@@ -24,9 +24,9 @@
 	/* head */
 	--header-background: #00808080;
 	--search-container-background: #e8e8e8;
-	--search-input-background: #00000014;
-	--search-input-text-color: #0e0e10;
-	--search-input-focus-background: #fff;
+	--search-input-background: #ffffff50;
+	--search-input-text-color: #0d0f1d;
+	--search-input-focus-background: #ffffff;
 	--search-input-focus-border: #008080;
 	--search-item-focus-background: #008080;
 	--svg-focus-background: #008080;
@@ -68,18 +68,11 @@
 	--h-color: #008080;
 
 	/* head */
-	--header-background: #00808080;
-	--search-container-background: #e8e8e8;
-	--search-input-background: #00000014;
-	--search-input-text-color: #0e0e10;
-	--search-input-focus-background: #fff;
-	--search-input-focus-border: #008080;
-	--search-item-focus-background: #008080;
-	--svg-focus-background: #008080;
+	--header-item-height: 2rem;
+	--search-input-max-size: 400px;
+	--header-height: 4em;
+}
 
-	/* view */
-	--view-title-text-color: #008080;
-
-	/* markdown */
-	--md-link-color: #008080;
+.font-mono {
+	font-family: monospace;
 }

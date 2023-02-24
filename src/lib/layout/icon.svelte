@@ -33,15 +33,10 @@
 
 	.h {
 		/* font-size: var(--font-size-h); */
+				
 		font-size: 1.8rem;
 		font-weight: 700;
 		margin: 0 5px;
-	}
-
-	@media (max-width: 800px) {
-		.h {
-			display: none;
-		}
 	}
 </style>
 

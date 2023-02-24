@@ -29,11 +29,12 @@
 <style>
 	.head {
 		background-color: var(--header-background);
-		height: var(--header-height);
+		height: fit-content;
 		display: flex;
 		align-items: stretch;
-		flex-wrap: nowrap;
-		margin-bottom: 20px;
+		flex-wrap: wrap;
+
+		margin-bottom: 0.5em;
 	}
 
 	.layout {
@@ -41,11 +42,8 @@
 		-webkit-box-flex: 2;
 		flex-grow: 2;
 		flex-shrink: 1;
-		width: 100%;
-		/* display: none !important; */
-		-webkit-box-align: center;
-		align-items: center;
-		-webkit-box-pack: center;
+
+		padding: 0.5em;
 	}
 
 	.layout.mid {
@@ -53,10 +51,13 @@
 	}
 
 	.layout.left {
+		justify-content: center;
+
+		flex-direction: column;
 		width: fit-content;
 	}
 
 	.layout.right {
-		width: fit-content;
+		display: none;
 	}
 </style>
