@@ -1,9 +1,11 @@
 <script lang="ts">
 	import type { smallMeta } from "$lib/entry"
 	import Icon from "./icon.svelte";
+    import LightDark from "./lightdark.svelte";
 	import Search from "./search.svelte"
 
 	export let allMeta: smallMeta[]
+	export let theme: string | undefined
 </script>
 
 
@@ -17,7 +19,9 @@
 		<Search {allMeta} />
 	</div>
 
-	<div class="layout right"></div>
+	<div class="layout right">
+		<LightDark init={theme} />
+	</div>
 
 </div>
 
@@ -53,6 +57,6 @@
 	}
 
 	.layout.right {
-		width: 250px;
+		width: fit-content;
 	}
 </style>
