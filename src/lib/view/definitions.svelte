@@ -5,6 +5,7 @@
 	export let definitions: Entry["definitions"]
 </script>
 
+
 {#each definitions as definition, i}
 	{#if "sub" in definition}
 		<Definition {definition} {i} />

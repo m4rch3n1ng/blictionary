@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PageData } from "./$types"
 	import { initMark, wordClassToString, markdown } from "$lib/markdown"
-	import Definitions from "./definitions.svelte"
-	import "./item.css"
+	import Definitions from "$lib/view/definitions.svelte"
+    import Wrap from "$lib/view/wrap.svelte"
 
 	export let data: PageData
 	$: entry = data.entry
@@ -10,12 +10,13 @@
 	initMark(data.allMeta)
 </script>
 
+
 <svelte:head>
 	<title>{entry.word}, {wordClassToString(entry.class, false)} | blictionary</title>
 </svelte:head>
 
 {#key entry}
-	<div class="main">
+	<Wrap>
 
 		<h1>
 			{entry.word},
@@ -33,7 +34,6 @@
 			</span>
 		</div>
 
-		<!-- todo forms -->
 		<div class="item">
 			{#if entry.forms}
 				<span class="h">Forms:</span>
@@ -47,8 +47,8 @@
 		</div>
 
 		<Definitions definitions={entry.definitions} />
-
-	</div>
+	
+	</Wrap>
 {/key}
 
 <style>
@@ -61,27 +61,6 @@
 	.h {
 		font-weight: 700;
 		margin-right: 2px;
-	}
-
-	.main {
-		margin-right: 80px;
-		margin-left: 80px;
-		width: auto;
-	}
-
-	@media (max-width: 1000px) {
-		.main {
-			margin: 0 1rem;
-		}
-	}
-
-	@media (min-width: 1600px) {
-		.main {
-			position: static;
-			width: 1440px;
-			margin-right: auto;
-			margin-left: auto;
-		}
 	}
 
 	.item {
