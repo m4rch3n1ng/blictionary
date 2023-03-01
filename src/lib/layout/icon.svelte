@@ -15,6 +15,8 @@
 	a {
 		color: var(--text-color);
 		text-decoration: none;
+
+		transition: color 0.25s;
 	}
 
 	.wrap {

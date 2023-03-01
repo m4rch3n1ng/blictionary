@@ -83,8 +83,6 @@
 
 <style>
 	.wrap {
-		flex-basis: var(--search-input-max-size);
-		
 		position: relative;
 
 		max-width: var(--search-input-max-size);
@@ -97,7 +95,7 @@
 	}
 
 	.inner {
-		height: 100%;
+		height: inherit;
 
 		display: flex;
 		align-items: center;

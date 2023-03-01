@@ -4,13 +4,13 @@
 	xmlns="http://www.w3.org/2000/svg"
 	fill="none"
 	viewBox="0 0 24 24"
-	strokeWidth="1.5"
+	stroke-width="2"
 	stroke="currentColor"
 	role="img"
 	aria-hidden="false"
-	aria-label="moon"
+	aria-label="Light Mode"
 >
-	<title>sun</title>
+	<title>Light Mode</title>
 	<path
 		strokeLinecap="round"
 		strokeLinejoin="round"
@@ -23,6 +23,7 @@
 	svg {
 		width: var(--header-svg-height);
 		height: var(--header-svg-height);
+
 		cursor: pointer;
 	}
 </style>
