@@ -1,8 +1,5 @@
 .item > * {
 	margin-top: 2px;
-	/* overflow: hidden;
-	position: relative;
-	width: 100%; */
 }
 
 .item > span {

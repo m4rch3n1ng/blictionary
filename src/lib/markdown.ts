@@ -84,7 +84,7 @@ export function initMark ( allMeta: smallMeta[] ) {
 
 function findEntry ( word: string, wordClass: string, allMeta: smallMeta[] ) {
 	const found = allMeta.find(( meta ) => 
-		meta.word === word && meta.class === wordClass
+		meta.word === word && ( Array.isArray(meta.class) ? meta.class.includes(wordClass) : meta.class === wordClass )
 	)
 	return found
 }
