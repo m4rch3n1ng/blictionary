@@ -58,6 +58,8 @@
 	}
 
 	.layout.right {
-		display: none;
+		flex-direction: column;
+		justify-content: center;
+		width: fit-content;
 	}
 </style>
