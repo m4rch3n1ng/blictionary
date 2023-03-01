@@ -23,7 +23,7 @@
 			{@html wordClassToString(entry.class, true)}
 		</h1>
 
-		<div class="item">
+		<div class="view-item">
 			<span class="h">Pronounciation:</span>
 			<span>
 				R.P. <code class="IPA">{entry.pronounciation.rp}</code>,
@@ -34,14 +34,14 @@
 			</span>
 		</div>
 
-		<div class="item">
+		<div class="view-item">
 			{#if entry.forms}
 				<span class="h">Forms:</span>
 				<span>{@html markdown(entry.forms)}</span>
 			{/if}
 		</div>
 
-		<div class="item">
+		<div class="view-item">
 			<span class="h">Etymology:</span>
 			{@html markdown(entry.etymology, false)}
 		</div>
@@ -61,9 +61,5 @@
 	.h {
 		font-weight: 700;
 		margin-right: 2px;
-	}
-
-	.item {
-		margin-bottom: 10px;
 	}
 </style>

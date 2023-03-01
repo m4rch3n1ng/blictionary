@@ -1,7 +1,11 @@
-.item > * {
+.view-item {
+	margin-bottom: 10px;
+}
+
+.view-item > * {
 	margin-top: 2px;
 }
 
-.item > span {
+.view-item > span {
 	margin-top: 0
 }
