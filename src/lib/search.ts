@@ -2,7 +2,6 @@ import { filter as fuzzyFilter, sort as fuzzySort } from "fuzzyjs"
 import { writable } from "svelte/store"
 import type { smallMeta } from "./entry"
 
-// export let items: smallMeta[] = []
 export const items = writable<smallMeta[]>([])
 
 export function initSearch ( allMeta: smallMeta[] ) {

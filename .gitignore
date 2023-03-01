@@ -7,6 +7,7 @@ pnpm-lock.yaml
 # svelte
 /.svelte-kit/
 /build/
+/dist/
 .tmp/
 
 # entries
