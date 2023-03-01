@@ -6,6 +6,10 @@
 	font-family: Georgia, Times, "Times New Roman", serif;
 }
 
+.content {
+	display: contents;
+}
+
 * {
 	margin: 0;
 	box-sizing: border-box;
@@ -36,4 +40,9 @@ body {
 	top: 0;
 	bottom: 0;
 	right: 0;
+
+	color: var(--text-color);
+	background-color: var(--background);
+
+	transition: background-color 0.25s, color 0.25s;
 }

@@ -31,7 +31,7 @@
 		background-color: var(--header-background);
 		height: fit-content;
 		display: flex;
-		align-items: stretch;
+
 		flex-wrap: wrap;
 
 		margin-bottom: 0.5em;
@@ -39,27 +39,21 @@
 
 	.layout {
 		display: flex;
-		-webkit-box-flex: 2;
-		flex-grow: 2;
-		flex-shrink: 1;
 
 		padding: 0.5em;
+
+		margin-inline: auto;
+
+		justify-content: center;
+		align-items: center;
+
+		flex-direction: column;
 	}
 
 	.layout.mid {
-		justify-content: center;
-	}
-
-	.layout.left {
-		justify-content: center;
-
-		flex-direction: column;
-		width: fit-content;
-	}
-
-	.layout.right {
-		flex-direction: column;
-		justify-content: center;
-		width: fit-content;
+		-webkit-box-flex: 1;
+		flex-grow: 1;
+		flex-shrink: 1;
+	
 	}
 </style>

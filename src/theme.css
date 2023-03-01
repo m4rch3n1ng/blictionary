@@ -1,5 +1,3 @@
-/* todo actual dark mode */
-
 /* -- size -- */
 :root {
 	/* global */
@@ -18,7 +16,8 @@
 /* -- color -- */
 :root, :root.light {
 	/* global */
-	--text-color: #000;
+	--text-color: #242424;
+	--background: #f3f3f3;
 	--h-color: #008080;
 
 	/* head */
@@ -37,51 +36,28 @@
 	/* markdown */
 	--md-link-color: #008080;
 }
-	
-@media screen and (prefers-color-scheme: dark) {
-	:root {
-		/* global */
-		--text-color: #000;
-		--h-color: #008080;
-
-		/* head */
-		--header-background: #00808080;
-		--search-container-background: #e8e8e8;
-		--search-input-background: #ffffff50;
-		--search-input-text-color: #0d0f1d;
-		--search-input-focus-background: #ffffff;
-		--search-input-focus-border: #008080;
-		--search-item-focus-background: #008080;
-		--svg-focus-background: #008080;
-
-		/* view */
-		--view-title-text-color: #008080;
-
-		/* markdown */
-		--md-link-color: #008080;
-	}
-}
 
 :root.dark {
 	/* global */
-	--text-color: #000;
-	--h-color: #008080;
+	--text-color: #ebebeb;
+	--background: #313131;
+	--h-color: #65a7a7;
 
 	/* head */
-	--header-background: #00808080;
-	--search-container-background: #e8e8e8;
-	--search-input-background: #ffffff50;
-	--search-input-text-color: #0d0f1d;
-	--search-input-focus-background: #ffffff;
-	--search-input-focus-border: #008080;
-	--search-item-focus-background: #008080;
-	--svg-focus-background: #008080;
+	--header-background: #5cbdbd80;
+	--search-container-background: #4d4d4d;
+	--search-input-background: #24242450;
+	--search-input-text-color: #fbfcff;
+	--search-input-focus-background: #2b2b2b;
+	--search-input-focus-border: #c1fcfc;
+	--search-item-focus-background: #65a7a7;
+	--svg-focus-background: #65a7a7;
 
 	/* view */
-	--view-title-text-color: #008080;
+	--view-title-text-color: #d8464b;
 
 	/* markdown */
-	--md-link-color: #008080;
+	--md-link-color: #65a7a7;
 }
 
 .font-mono {
