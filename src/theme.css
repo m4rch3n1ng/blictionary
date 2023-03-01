@@ -37,6 +37,32 @@
 	--md-link-color: #008080;
 }
 
+@media screen and (prefers-color-scheme: dark) {
+	:root {
+		/* global */
+		--text-color: #ebebeb;
+		--background: #313131;
+		--h-color: #65a7a7;
+
+		/* head */
+		--header-background: #5cbdbd80;
+		--search-container-background: #4d4d4d;
+		--search-input-background: #24242450;
+		--search-input-text-color: #fbfcff;
+		--search-input-focus-background: #2b2b2b;
+		--search-input-focus-border: #c1fcfc;
+		--search-item-focus-background: #65a7a7;
+		--svg-focus-background: #65a7a7;
+
+		/* view */
+		--view-title-text-color: #d8464b;
+
+		/* markdown */
+		--md-link-color: #65a7a7;
+		--md-link-color: #008080;
+	}
+}
+
 :root.dark {
 	/* global */
 	--text-color: #ebebeb;
