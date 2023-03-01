@@ -11,7 +11,7 @@
 </script>
 
 <svelte:head>
-	<title>{entry.word}, {Array.isArray(entry.class) ? wordClassToString(entry.class, false) : entry.class}</title> <!-- todo cleanup ? -->
+	<title>{entry.word}, {wordClassToString(entry.class, false)} | blictionary</title>
 </svelte:head>
 
 {#key entry}
@@ -19,11 +19,7 @@
 
 		<h1>
 			{entry.word},
-			{#if Array.isArray(entry.class)}
-				{@html wordClassToString(entry.class, true)}
-			{:else}
-				<em>{entry.class}</em>
-			{/if}
+			{@html wordClassToString(entry.class, true)}
 		</h1>
 
 		<div class="item">

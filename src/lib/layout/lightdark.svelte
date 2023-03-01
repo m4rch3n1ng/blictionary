@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { onMount } from "svelte"
+	import { onMount } from "svelte"
 	import { page } from "$app/stores"
-    import { initTheme, invertTheme } from "$lib/theme"
+	import { initTheme, invertTheme } from "$lib/theme"
 	import Moon from "$lib/assets/moon.svg.svelte"
 	import Sun from "$lib/assets/sun.svg.svelte"
 

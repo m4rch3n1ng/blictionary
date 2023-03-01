@@ -89,7 +89,9 @@ function findEntry ( word: string, wordClass: string, allMeta: smallMeta[] ) {
 	return found
 }
 
-export function wordClassToString ( wordClass: string[], html: boolean ) {
+export function wordClassToString ( wordClass: string | string[], html: boolean ) {
+	if (!Array.isArray(wordClass)) return html ? `<em>${wordClass}</em>` : wordClass
+
 	let string = ""
 	for (let i = 0; i < wordClass.length; i++) {
 		string += html ? `<em>${wordClass[i]}</em>` : wordClass[i]

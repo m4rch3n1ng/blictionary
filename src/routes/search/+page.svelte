@@ -1,29 +1,30 @@
 <script lang="ts">
-    import { wordClassToString } from "$lib/markdown"
+	import { wordClassToString } from "$lib/markdown"
 	import type { PageData } from "../../routes/search/$types"
 
 	export let data: PageData
 </script>
 
+
+<svelte:head>
+	<title>search results | blictionary</title>
+</svelte:head>
+
 <!-- todo preview? -->
 
 <div class="main">
 	<div class="h">search results</div>
-	<div>showing {data.allMeta.length} entries</div>
+	<div>showing {data.search.length} entries </div>
 
 	<div class="grid">
-		{#each data.allMeta as { id, word, class: wordClass }}
+		{#each data.search as { id, word, class: wordClass }}
 			<a href="/view/{id}/{word}" class="link">
 
 				<div class="id">{id}</div>
 				<div class="word">
 					<p>
 						{word},
-						{#if Array.isArray(wordClass)}
-							{@html wordClassToString(wordClass, true)}
-						{:else}
-							<em>{wordClass}</em>
-						{/if}
+						{@html wordClassToString(wordClass, true)}
 					</p>
 				</div>
 
