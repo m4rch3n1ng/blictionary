@@ -53,7 +53,7 @@
 
 <style>
 	h1 {
-		color: var(--view-title-text-color); 
+		color: var(--view-title-text-color);
 		font-size: var(--font-size-h);
 		margin-bottom: 20px;
 	}

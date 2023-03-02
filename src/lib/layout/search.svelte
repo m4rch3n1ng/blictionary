@@ -88,11 +88,9 @@
 		position: relative;
 
 		max-width: var(--search-input-max-size);
-		height: var(--header-height);
 		width: 100%;
 		
 		border: 0;
-		
 		padding: 0;
 	}
 
@@ -105,12 +103,10 @@
 	
 	#search-container {
 		width: 100%;
-
-		--search-height: 3em;
 	}
 	
 	#search-result {
-		padding-top: var(--search-height);
+		padding-top: var(--header-item-height);
 
 		z-index: -1;
 	}
@@ -119,7 +115,7 @@
 		display: block;
 
 		width: 100%;
-		height: var(--search-height);
+		height: var(--header-item-height);
 
 		appearance: none;
 		background-clip: padding-box;
@@ -136,7 +132,7 @@
 
 		background-color: var(--search-input-background);
 	
-    	padding: 0.5rem 1rem !important;
+    	padding: 0 0.5rem 0 1rem !important;
 	}
 
 	#search-input:focus, #search-input:focus:hover {

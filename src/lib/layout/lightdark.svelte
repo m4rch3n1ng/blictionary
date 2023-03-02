@@ -26,7 +26,7 @@
 
 
 <!-- todo auto theme (dropdown?) -->
-<form action="/app/theme" on:submit|preventDefault={submit} >
+<form class="wrap" action="/app/theme" on:submit|preventDefault={submit} >
 	<button bind:this={btn} type="submit">
 		<div class="dark {$theme ? $theme === "dark" : ""}">
 			<Moon />
@@ -41,19 +41,25 @@
 
 
 <style>
+	.wrap {
+		display: flex;
+		align-items: center;
+	}
+
 	input {
 		display: none;
 	}
 
 	button {
-		display: block;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		background: none;
 		border: 0;
 		padding: 0;
 		cursor: pointer;
 		height: var(--header-item-height);
 		width: var(--header-item-height);
-		margin: 0 5px;
 
 		color: var(--text-color);
 	}
@@ -66,6 +72,8 @@
 
 	.dark, .light {
 		display: inline-block;
+		height: var(--header-svg-height);
+		width: var(--header-svg-height);
 	}
 
 	.dark {

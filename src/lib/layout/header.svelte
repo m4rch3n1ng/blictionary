@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { smallMeta } from "$lib/entry"
-	import Icon from "./icon.svelte";
-	import LightDark from "./lightdark.svelte";
+	import Icon from "./icon.svelte"
+	import LightDark from "./lightdark.svelte"
 	import Search from "./search.svelte"
 
 	export let allMeta: smallMeta[]
@@ -29,18 +29,20 @@
 <style>
 	.head {
 		background-color: var(--header-background);
-		height: fit-content;
 		display: flex;
 
 		flex-wrap: nowrap;
+		height: var(--header-height);
+		box-sizing: border-box;
+		padding: 0.5rem;
 
-		margin-bottom: 0.5em;
+		margin-bottom: 0 0.5em;
 	}
 
 	.layout {
 		display: flex;
 
-		padding: 0.5em;
+		padding: 0 0.5em;
 
 		margin-inline: auto;
 		align-items: center;

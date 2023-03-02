@@ -22,10 +22,7 @@
 	}
 
 	img {
-		/* margin: 0 10px 0 5px; */
 		margin: 0;
-		margin-left: 5px;
-		
 		border-radius: 6px;
 
 		width: var(--header-item-height);

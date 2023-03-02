@@ -15,7 +15,7 @@ export async function load ({ parent, url }: PageServerLoadEvent ) {
 
 	const allFind = allMeta.filter(({ word }) => word === query)
 	if (allFind.length === 1 && allFind[0]) {
-		throw redirect(301, `/view/${allFind[0].id}/${allFind[0].word}`) // todo 
+		throw redirect(301, `/view/${allFind[0].id}/${allFind[0].word}`) // todo
 	}
 
 	const filteredMeta = allMeta.filter(fuzzyFilter(query, { iterator: ({ word }) => word }))
