@@ -4,11 +4,8 @@
 
 
 <a href="/" class="wrap">
-
 	<img alt="icon" src={icon} />
-
-	<div class="h">blictionary</div>
-	
+	<div id="blitionary-title">blictionary</div>
 </a>
 
 <style>
@@ -22,22 +19,29 @@
 	.wrap {
 		display: flex;
 		align-items: center;
-		margin-right: 5px;
 	}
 
 	img {
 		/* margin: 0 10px 0 5px; */
-		margin: 0 5px;
+		margin: 0;
+		margin-left: 5px;
+		
 		border-radius: 6px;
+
 		width: var(--header-item-height);
 		height: var(--header-item-height);
 	}
 
-	.h {
-		/* font-size: var(--font-size-h); */
-				
-		font-size: 1.8rem;
+	#blitionary-title {
+		font-size: var(--font-size-h);
 		font-weight: 700;
-		margin: 0 5px;
+		margin: 0;
+		margin-left: 0.4em;
+	}
+
+	@media screen and (max-width: 550px) {
+		#blitionary-title {
+			display: none;
+		}
 	}
 </style>

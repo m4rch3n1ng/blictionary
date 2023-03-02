@@ -32,7 +32,7 @@
 		height: fit-content;
 		display: flex;
 
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 
 		margin-bottom: 0.5em;
 	}
@@ -43,17 +43,13 @@
 		padding: 0.5em;
 
 		margin-inline: auto;
-
-		justify-content: center;
 		align-items: center;
-
-		flex-direction: column;
+		justify-content: center;
 	}
 
 	.layout.mid {
 		-webkit-box-flex: 1;
 		flex-grow: 1;
 		flex-shrink: 1;
-	
 	}
 </style>
