@@ -7,7 +7,7 @@ import { writable } from "svelte/store"
 // todo maybe utils
 function getCookie ( name: string ): string | undefined {
 	const cookie = `; ${document.cookie}`.match(`;\\s*${name}=([^;]+)`);
-    return cookie ? cookie[1] : ''
+	return cookie ? cookie[1] : ''
 }
 
 function updateCookie ( theme: string | undefined ) {

@@ -7,18 +7,13 @@
 </script>
 
 
-<!-- todo hover higlight -->
 <a href="/view/{id}/{word}" class="main">
 
 	<div class="id">{id}</div>
 	<div class="word">
 		<p>
 			{word},
-			{#if Array.isArray(wordClass)}
-				{@html wordClassToString(wordClass, true)}
-			{:else}
-				<em>{wordClass}</em>
-			{/if}
+			{@html wordClassToString(wordClass, true)}
 		</p>
 	</div>
 

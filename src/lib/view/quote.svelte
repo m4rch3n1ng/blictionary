@@ -1,10 +1,8 @@
 <script lang="ts">
 	import type { Quote } from "$lib/entry"
 	import { markdown } from "$lib/markdown"
-	// import { inlineMarkdown } from "$lib/markdown"
 
 	export let quotes: Quote[] | undefined
-	
 </script>
 
 

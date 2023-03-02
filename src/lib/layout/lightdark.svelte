@@ -1,8 +1,18 @@
 <script lang="ts">
+	import { onMount } from "svelte"
 	import { page } from "$app/stores"
-    import { initTheme, invertTheme } from "$lib/theme"
+	import { initTheme, invertTheme } from "$lib/theme"
 	import Moon from "$lib/assets/moon.svg.svelte"
 	import Sun from "$lib/assets/sun.svg.svelte"
+
+	onMount(() => {
+		const matchMedia = window.matchMedia("(prefers-color-scheme: dark)")
+		if (!init) theme.set(matchMedia.matches ? "dark" : "light", false)
+		window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ( ev ) => {
+			const isCookie = theme.cookie()
+			if (!isCookie) theme.set(ev.matches ? "dark" : "light", false)
+		})
+	})
 
 	export let init: string | undefined
 	const theme = initTheme(init)

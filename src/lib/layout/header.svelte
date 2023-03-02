@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { smallMeta } from "$lib/entry"
 	import Icon from "./icon.svelte";
-    import LightDark from "./lightdark.svelte";
+	import LightDark from "./lightdark.svelte";
 	import Search from "./search.svelte"
 
 	export let allMeta: smallMeta[]

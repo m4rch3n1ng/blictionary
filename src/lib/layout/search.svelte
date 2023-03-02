@@ -1,21 +1,23 @@
 <script lang="ts">
-	import type { smallMeta } from "$lib/entry"
+	import { get } from "svelte/store"
 	import { afterNavigate, goto } from "$app/navigation"
-	import SearchItem from "./search-item.svelte"
+	import { page } from "$app/stores"
+	import type { smallMeta } from "$lib/entry"
 	import { initSearch, items } from "$lib/search"
+	import SearchItem from "./search-item.svelte"
 
 	export let allMeta: smallMeta[]
 	const search = initSearch(allMeta)
 
-	let value = ""
+	let value = get(page).url.searchParams.get("q") || ""
 	let focus = false
 	function focusIn () {
 		focus = true
 	}
 
-	afterNavigate(() => {
+	afterNavigate(( afterNav ) => {
 		focus = false
-		value = ""
+		value = afterNav.to?.url.searchParams.get("q") || ""
 	})
 
 	let searchContainer: HTMLElement
@@ -134,7 +136,7 @@
 
 		background-color: var(--search-input-background);
 	
-    	padding: 0.5rem 1rem;
+    	padding: 0.5rem 1rem !important;
 	}
 
 	#search-input:focus, #search-input:focus:hover {
