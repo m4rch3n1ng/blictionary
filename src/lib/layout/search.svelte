@@ -56,7 +56,6 @@
 						type="search"
 						name="q"
 						id="search-input"
-						class="font-mono"
 						placeholder="search"
 						aria-label="search"
 						aria-haspopup="grid"
