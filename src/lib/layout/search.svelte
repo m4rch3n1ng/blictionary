@@ -48,15 +48,15 @@
 
 <div class="wrap">
 	<div class="inner">
-		<div bind:this={searchContainer} id="search-container" class="search-container">
-
+		<div bind:this={searchContainer} id="search-container">
 			<div class="input-container">
 				<form action="/search" class="input-layout">
 
 					<input bind:value on:input={search} on:focus={focusIn} on:focusin={focusIn} on:keydown={keydown}
 						type="search"
 						name="q"
-						class="input"
+						id="search-input"
+						class="font-mono"
 						placeholder="search"
 						aria-label="search"
 						aria-haspopup="grid"
@@ -69,22 +69,15 @@
 					/>
 
 				</form>
-			</div>
 
-			<div id="dropdown-container" class="dropdown-container {focus && value && $items.length ? "active" : "inactive"}">
-
-				<div class="dropdown-offset">
-					<input class="input" />
+				<div id="search-result" class="dropdown-container {focus && value && $items.length ? "active" : "inactive"}">
+					<div class="dropdown {focus && value && $items.length ? "active" : "inactive"}">
+						{#each $items as { id, word, class: wordClass }}
+							<SearchItem {id} {word} {wordClass} />
+						{/each}
+					</div>
 				</div>
-
-				<div class="dropdown {focus && value && $items.length ? "active" : "inactive"}">
-					{#each $items as { id, word, class: wordClass }}
-						<SearchItem {id} {word} {wordClass} />
-					{/each}
-				</div>
-
 			</div>
-
 		</div>
 	</div>
 </div>
@@ -92,33 +85,69 @@
 
 <style>
 	.wrap {
-		flex-basis: var(--search-input-max-size);
 		position: relative;
+
+		max-width: var(--search-input-max-size);
 		height: var(--header-height);
-		padding: 2px 0;
+		width: 100%;
+		
 		border: 0;
-		vertical-align: baseline;
+		
+		padding: 0;
 	}
 
 	.inner {
 		height: inherit;
-		max-width: var(--search-input-max-size);
+
+		display: flex;
+		align-items: center;
+	}
+	
+	#search-container {
+		width: 100%;
+
+		--search-height: 3em;
+	}
+	
+	#search-result {
+		padding-top: var(--search-height);
+
+		z-index: -1;
 	}
 
-	.search-container {
-		position: relative;
-		z-index: 100;
+	#search-input {
+		display: block;
+
+		width: 100%;
+		height: var(--search-height);
+
+		appearance: none;
+		background-clip: padding-box;
+
+		line-height: 1.5;
+		transition: border 100ms ease-in,background-color 100ms ease-in;
+
+		border-style: solid;
+		border-width: 2px;
+		border-color: var(--search-input-background);
+		border-radius: 6px;
+
+		color: var(--search-input-text-color);
+
+		background-color: var(--search-input-background);
+	
+    	padding: 0.5rem 1rem !important;
+	}
+
+	#search-input:focus, #search-input:focus:hover {
+		outline: none;
+		border-color: var(--search-input-focus-border);
+		background-color: var(--search-input-focus-background);
 	}
 
 	.input-container {
 		position: relative;
-		padding: 5px;
 		z-index: 100;
-	}
-
-	.input-layout {
-		width: 100%;
-		display: flex;
 	}
 
 	.dropdown-container {
@@ -136,38 +165,9 @@
 		box-shadow: 0 6px 16px rgba(0,0,0,.16),0 0px 4px rgba(0,0,0,.05);
 	}
 
-	.input {
-		display: block;
-		width: 100%;
-		height: 36px;
-		font-family: inherit;
-		appearance: none;
-		background-clip: padding-box;
-		line-height: 1.5;
-		transition: border 100ms ease-in,background-color 100ms ease-in;
-		border-style: solid;
-		border-width: 2px;
-		border-color: var(--search-input-background);
-		color: var(--search-input-text-color);
-		background-color: var(--search-input-background);
-		border-radius: 0.6rem;
-		padding: 0.5rem 1rem !important;
-	}
-
-	.input:focus, .input:focus:hover {
-		outline: none;
-		border-color: var(--search-input-focus-border);
-		background-color: var(--search-input-focus-background);
-	}
-
-	.dropdown-offset {
-		visibility: hidden;
-		position: relative;
-	}
-
 	.dropdown {
 		/* height: 100px; */
-		padding-top: 5px;
+		/* padding-top: 5px; */
 		/* background-color: #0e0e10; */
 		display: none;
 		max-width: var(--search-input-max-size);

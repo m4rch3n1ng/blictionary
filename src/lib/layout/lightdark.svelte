@@ -54,6 +54,8 @@
 		height: var(--header-item-height);
 		width: var(--header-item-height);
 		margin: 0 5px;
+
+		color: var(--text-color);
 	}
 
 	button:hover, button:focus {

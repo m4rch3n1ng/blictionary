@@ -29,34 +29,27 @@
 <style>
 	.head {
 		background-color: var(--header-background);
-		height: var(--header-height);
+		height: fit-content;
 		display: flex;
-		align-items: stretch;
+
 		flex-wrap: nowrap;
-		margin-bottom: 20px;
+
+		margin-bottom: 0.5em;
 	}
 
 	.layout {
 		display: flex;
-		-webkit-box-flex: 2;
-		flex-grow: 2;
-		flex-shrink: 1;
-		width: 100%;
-		/* display: none !important; */
-		-webkit-box-align: center;
-		align-items: center;
-		-webkit-box-pack: center;
-	}
 
-	.layout.mid {
+		padding: 0.5em;
+
+		margin-inline: auto;
+		align-items: center;
 		justify-content: center;
 	}
 
-	.layout.left {
-		width: fit-content;
-	}
-
-	.layout.right {
-		width: fit-content;
+	.layout.mid {
+		-webkit-box-flex: 1;
+		flex-grow: 1;
+		flex-shrink: 1;
 	}
 </style>
