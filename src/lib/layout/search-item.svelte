@@ -28,6 +28,7 @@
 		padding: 0 10px 0 5px;
 		color: var(--text-color);
 		text-decoration: none;
+		border-radius: 6px;
 	}
 
 	.main:hover, .main:focus {

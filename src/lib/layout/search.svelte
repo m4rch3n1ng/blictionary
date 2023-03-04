@@ -103,6 +103,10 @@
 	#search-container {
 		width: 100%;
 	}
+
+	.input-layout {
+		padding: 5px;
+	}
 	
 	#search-result {
 		padding-top: var(--header-item-height);
@@ -164,6 +168,7 @@
 		/* height: 100px; */
 		/* padding-top: 5px; */
 		/* background-color: #0e0e10; */
+		margin-top: 10px;
 		display: none;
 		max-width: var(--search-input-max-size);
 	}
