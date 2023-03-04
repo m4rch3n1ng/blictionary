@@ -7,7 +7,7 @@ export interface Entry {
 	class: string | string[]
 	pronounciation: Pronounciation
 	forms?: string
-	etymology: string
+	etymology: string | string[]
 	definitions: (Definition | TopDefinition)[]
 }
 
