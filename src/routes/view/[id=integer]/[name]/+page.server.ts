@@ -9,7 +9,7 @@ export async function load ({ params, parent }: PageServerLoadEvent ) {
 	if (!hasEntry(id)) throw error(404, "not found")
 
 	const entry = await getEntry(id)
-	if (entry.word !== params.name) throw redirect(301, `/${params.id}/${entry.word}`) // todo cleanup sluggify
+	if (entry.word !== params.name) throw redirect(301, `/view/${params.id}/${entry.word}`) // todo cleanup sluggify
 
 	return { entry, allMeta }
 }
