@@ -2,7 +2,7 @@ import { marked } from "marked"
 import type { smallMeta } from "./entry"
 import slugify from "@sindresorhus/slugify"
 
-export let markdown: ( md: string, inline?: boolean ) => string
+export let inlineMarkdown: ( md: string ) => string
 
 export function initMark ( allMeta: smallMeta[] ) {
 	const markedExtensions: marked.TokenizerAndRendererExtension[] = [
@@ -74,8 +74,8 @@ export function initMark ( allMeta: smallMeta[] ) {
 
 	marked.use({ extensions: markedExtensions, renderer })
 
-	markdown = function ( md: string, inline: boolean = true ): string {
-		return inline ? marked.parseInline(md) : marked.parse(md)
+	inlineMarkdown = function ( md: string ): string {
+		return marked.parseInline(md)
 	}
 
 	return function ( md: string, inline: boolean = true ): string {

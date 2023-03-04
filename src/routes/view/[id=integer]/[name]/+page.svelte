@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from "./$types"
-	import { initMark, wordClassToString, markdown } from "$lib/markdown"
+	import { initMark, wordClassToString, inlineMarkdown } from "$lib/markdown"
 	import Definitions from "$lib/view/definitions.svelte"
     import Wrap from "$lib/view/wrap.svelte"
 
@@ -29,7 +29,7 @@
 				R.P. <code class="IPA">{entry.pronounciation.rp}</code>,
 				U.S. <code class="IPA">{entry.pronounciation.us}</code>
 				{#if entry.pronounciation.note}
-					{@html markdown(entry.pronounciation.note)}
+					{@html inlineMarkdown(entry.pronounciation.note)}
 				{/if}
 			</span>
 		</div>
@@ -37,13 +37,13 @@
 		<div class="view-item">
 			{#if entry.forms}
 				<span class="h">Forms:</span>
-				<span>{@html markdown(entry.forms)}</span>
+				<span>{@html inlineMarkdown(entry.forms)}</span>
 			{/if}
 		</div>
 
 		<div class="view-item">
 			<span class="h">Etymology:</span>
-			{@html markdown(entry.etymology, false)}
+			{@html inlineMarkdown(entry.etymology)}
 		</div>
 
 		<Definitions definitions={entry.definitions} />

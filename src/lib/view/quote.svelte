@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Quote } from "$lib/entry"
-	import { markdown } from "$lib/markdown"
+	import { inlineMarkdown } from "$lib/markdown"
 
 	export let quotes: Quote[] | undefined
 </script>
@@ -14,9 +14,9 @@
 				<span class="d">{quote.date}</span>,
 				<span>'{quote.author}'</span>,
 				<span>{quote.location}</span>:
-				"{@html markdown(quote.text)}"
+				"{@html inlineMarkdown(quote.text)}"
 				{#if quote.note}
-					<div class="note">{@html markdown(quote.note)}</div>
+					<div class="note">{@html inlineMarkdown(quote.note)}</div>
 				{/if}
 			</div>
 		{/each}
