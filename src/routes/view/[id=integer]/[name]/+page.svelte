@@ -3,6 +3,7 @@
 	import { initMark, wordClassToString, inlineMarkdown } from "$lib/markdown"
 	import Definitions from "$lib/view/definitions.svelte"
     import Wrap from "$lib/view/wrap.svelte"
+    import Multitext from "$lib/view/multitext.svelte"
 
 	export let data: PageData
 	$: entry = data.entry
@@ -43,7 +44,10 @@
 
 		<div class="view-item">
 			<span class="h">Etymology:</span>
-			{@html inlineMarkdown(entry.etymology)}
+			<!-- {@html inlineMarkdown(entry.etymology)} -->
+			<div>
+				<Multitext text={entry.etymology} />
+			</div>
 		</div>
 
 		<Definitions definitions={entry.definitions} />
