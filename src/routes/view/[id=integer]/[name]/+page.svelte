@@ -38,16 +38,13 @@
 		<div class="view-item">
 			{#if entry.forms}
 				<span class="h">Forms:</span>
-				<span>{@html inlineMarkdown(entry.forms)}</span>
+				<Multitext text={entry.forms} />
 			{/if}
 		</div>
 
 		<div class="view-item">
 			<span class="h">Etymology:</span>
-			<!-- {@html inlineMarkdown(entry.etymology)} -->
-			<div>
-				<Multitext text={entry.etymology} />
-			</div>
+			<Multitext text={entry.etymology} />
 		</div>
 
 		<Definitions definitions={entry.definitions} />

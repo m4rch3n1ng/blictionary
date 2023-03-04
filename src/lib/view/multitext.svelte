@@ -5,12 +5,23 @@
 </script>
 
 
-<!-- todo wait i think i can do this like inline? -->
+<div class="main">
+	{#if Array.isArray(text)}
+		{#each text as t}
+			<p>{@html inlineMarkdown(t)}</p>
+		{/each}
+	{:else}
+		<p>{@html inlineMarkdown(text)}</p>
+	{/if}
+</div>
 
-{#if Array.isArray(text)}
-	{#each text as t}
-		<p>{@html inlineMarkdown(t)}</p>
-	{/each}
-{:else}
-	{@html inlineMarkdown(text)}
-{/if}
+
+<style>
+	.main {
+		display: inline;
+	}
+
+	.main > p:first-child {
+		display: inline;
+	}
+</style>
