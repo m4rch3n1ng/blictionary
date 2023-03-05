@@ -13,7 +13,6 @@
 	},
 	"dependencies": {
 		"@sindresorhus/slugify": "^2.2.0",
-		"fuzzyjs": "^5.0.1",
 		"marked": "^4.2.12"
 	},
 	"devDependencies": {

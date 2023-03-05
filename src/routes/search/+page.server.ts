@@ -1,5 +1,6 @@
+import { fuzz } from "$lib/fuzzy"
 import { redirect } from "@sveltejs/kit"
-import { filter as fuzzyFilter } from "fuzzyjs"
+// import { filter as fuzzyFilter } from "fuzzyjs"
 import type { PageServerLoadEvent } from "./$types"
 import { slugify } from "$lib/markdown"
 
@@ -20,7 +21,8 @@ export async function load ({ parent, url }: PageServerLoadEvent ) {
 		throw redirect(301, `/view/${entry.id}/${slugify(entry.word)}`) // todo
 	}
 
-	const filteredEntries = allEntries.filter(fuzzyFilter(query, { iterator: ({ word }) => word }))
+	// const filteredEntries = allEntries.filter(fuzzyFilter(query, { iterator: ({ word }) => word }))
+	const filteredEntries = fuzz(allEntries, query)
 
 	return {
 		search: filteredEntries
