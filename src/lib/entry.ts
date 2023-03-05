@@ -49,8 +49,6 @@ export async function getEntry ( id: string ): Promise<Entry> {
 	return entry
 }
 
-// export async function findEntry ( word: string, wordClass: string ) {
-// }
 export interface smallMeta {
 	id: string
 	word: string
