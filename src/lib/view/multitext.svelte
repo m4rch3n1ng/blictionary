@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { inlineMarkdown } from "$lib/markdown";
+    import { inlineMarkdown } from "$lib/markdown"
 
 	export let text: string | string[]
 </script>

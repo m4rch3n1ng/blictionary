@@ -62,14 +62,16 @@ export function initMark ( allMeta: smallMeta[] ) {
 	const renderer = new marked.Renderer
 	renderer.link = ( href, title, text ) => {
 		if (href === null) {
-			return text;
+			return text
 		}
-		let out = "<a class=\"md-link\" href=\"" + href + "\"";
+	
+		let out = "<a class=\"md-link\" href=\"" + href + "\""
 		if (title) {
-			out += " title=\"" + title + "\"";
+			out += " title=\"" + title + "\""
 		}
-		out += ">" + text + "</a>";
-		return out;
+		out += ">" + text + "</a>"
+
+		return out
 	}
 
 	marked.use({ extensions: markedExtensions, renderer })
