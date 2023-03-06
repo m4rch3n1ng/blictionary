@@ -5,7 +5,7 @@
 	export let definition: Entry["definitions"][0]
 	export let i: number
 	export let letter: boolean = false
-	import Quotes from "./quote.svelte"
+	import Quotes from "./quotes.svelte"
 
 	const alph = "abcdefghijklmnopqrstuvw"
 	const ind: string | number = !letter ? i + 1 : alph[i]!

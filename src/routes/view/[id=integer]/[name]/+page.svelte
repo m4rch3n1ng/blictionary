@@ -3,7 +3,8 @@
 	import { initMark, wordClassToString, inlineMarkdown } from "$lib/markdown"
 	import Definitions from "$lib/view/definitions.svelte"
     import Wrap from "$lib/view/wrap.svelte"
-    import Multitext from "$lib/view/multitext.svelte"
+    import MultiText from "$lib/view/multitext.svelte"
+    import SubEntry from "$lib/view/subentry.svelte"
 
 	export let data: PageData
 	$: entry = data.entry
@@ -35,19 +36,31 @@
 			</span>
 		</div>
 
-		<div class="view-item">
-			{#if entry.forms}
+		{#if entry.forms}
+			<div class="view-item">
 				<span class="h">Forms:</span>
-				<Multitext text={entry.forms} />
-			{/if}
-		</div>
+				<MultiText text={entry.forms} />
+			</div>
+		{/if}
 
 		<div class="view-item">
 			<span class="h">Etymology:</span>
-			<Multitext text={entry.etymology} />
+			<MultiText text={entry.etymology} />
 		</div>
 
-		<Definitions definitions={entry.definitions} />
+		<div class="view-item">
+			<Definitions definitions={entry.definitions} />
+		</div>
+
+		{#if entry.sub && entry.sub.length > 0}
+			<div class="view-item">
+				<!-- todo change compounds to sub entries ? -->
+				<div class="h h1">Compounds</div>
+				{#each entry.sub as sub}
+					<SubEntry {sub} />
+				{/each}
+			</div>
+		{/if}
 	
 	</Wrap>
 {/key}
@@ -62,5 +75,11 @@
 	.h {
 		font-weight: 700;
 		margin-right: 2px;
+	}
+
+	/* todo properly seperate compound header from the other ones */
+	.h1 {
+		font-size: var(--font-size-l);
+		padding-top: 10px;
 	}
 </style>
