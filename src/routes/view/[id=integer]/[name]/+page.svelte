@@ -81,5 +81,6 @@
 	.h1 {
 		font-size: var(--font-size-l);
 		padding-top: 10px;
+		font-variant: small-caps;
 	}
 </style>
