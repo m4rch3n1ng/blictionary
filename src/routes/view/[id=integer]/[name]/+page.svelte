@@ -54,8 +54,7 @@
 
 		{#if entry.sub && entry.sub.length > 0}
 			<div class="view-item">
-				<!-- todo change compounds to sub entries ? -->
-				<div class="h h1">Compounds</div>
+				<div class="h compound">Compounds</div>
 				{#each entry.sub as sub}
 					<SubEntry {sub} />
 				{/each}
@@ -77,10 +76,9 @@
 		margin-right: 2px;
 	}
 
-	/* todo properly seperate compound header from the other ones */
-	.h1 {
+	.compound {
 		font-size: var(--font-size-l);
-		padding-top: 10px;
+		padding-top: 30px;
 		font-variant: small-caps;
 	}
 </style>
