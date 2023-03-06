@@ -13,15 +13,29 @@ const regexOfDoom = /^([^\s,.!?$]+)[\s,.!?$]*([^\s,.!?$]+)?[\s,.!?$]*(\d+)?/
 // todo refine some stuff probably
 // todo sort
 export function fuzz ( allMeta: smallMeta[], search: string ): smallMeta[] {
-	if (!regexOfDoom.test(search)) return []
+	const spl = splitSearch(search)
+	if (!spl) return []
 
-	const [ , word, wordClass, num ] = [ ...regexOfDoom.exec(search)!.values() ]
-	console.log({ word, wordClass, num })
+	console.log(spl)
 
-	const wordRegex = initWordRegex(word!)
+	const wordRegex = initWordRegex(spl.word)
 	const _allMeta: (smallMeta & { score: number })[] = allMeta.map(( meta ) => ({ ...meta, score: wordRegex.score(meta.word) }))
 	return _allMeta.filter(({ score }) => score !== 0)
 }
+
+interface searchSplit {
+	word: string
+	class?: string
+	num?: number
+}
+
+function splitSearch ( search: string ): null | searchSplit {
+	if (!regexOfDoom.test(search)) return null
+
+	const [ , word, wordClass, num ] = [ ...regexOfDoom.exec(search)!.values() ]
+	return { word: word!, class: wordClass, num: num != null ? Number(num) : num }
+}
+
 
 function initWordRegex ( word: string ) {
 	const all = [ ...word ].map(_escReg)
