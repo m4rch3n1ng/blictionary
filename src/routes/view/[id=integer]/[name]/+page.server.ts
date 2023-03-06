@@ -1,4 +1,5 @@
 import { getEntry, hasEntry } from "$lib/entry"
+import slugify from "@sindresorhus/slugify"
 import { error, redirect } from "@sveltejs/kit"
 import type { PageServerLoadEvent } from "./$types"
 
@@ -9,7 +10,8 @@ export async function load ({ params, parent }: PageServerLoadEvent ) {
 	if (!hasEntry(id)) throw error(404, "not found")
 
 	const entry = await getEntry(id)
-	if (entry.word !== params.name) throw redirect(301, `/view/${params.id}/${entry.word}`) // todo cleanup sluggify
+	const entrySlug = slugify(entry.word)
+	if (entrySlug !== params.name) throw redirect(301, `/view/${params.id}/${entrySlug}`)
 
 	return { entry, allMeta }
 }
