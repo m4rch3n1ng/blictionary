@@ -1,5 +1,6 @@
 import { marked } from "marked"
 import type { smallMeta } from "./entry"
+import slugify from "@sindresorhus/slugify"
 
 export let markdown: ( md: string, inline?: boolean ) => string
 
@@ -51,7 +52,7 @@ export function initMark ( allMeta: smallMeta[] ) {
 			},
 			renderer ( token ) {
 				const found = findEntry(token.word, token.class, allMeta)
-				const href = found ? `/view/${found.id}/${token.word}` : `/view/404/${token.word}`
+				const href = found ? `/view/${found.id}/${slugify(token.word)}` : `/view/404/${encodeURIComponent(token.word)}`
 				token.render = `<a class="md-link" href="${href}"><span class="md-word">${token.word}</span>, <em>${token.class}</em></a>`
 				return token.render
 			}
