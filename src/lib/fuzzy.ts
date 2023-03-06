@@ -16,11 +16,9 @@ export function fuzz ( allMeta: smallMeta[], search: string ): smallMeta[] {
 	const spl = splitSearch(search)
 	if (!spl) return []
 
-	console.log(spl)
-
 	const wordRegex = initWordRegex(spl.word)
 	const _allMeta: (smallMeta & { score: number })[] = allMeta.map(( meta ) => ({ ...meta, score: wordRegex.score(meta.word) }))
-	return _allMeta.filter(({ score }) => score !== 0)
+	return _allMeta.filter(({ score }) => score !== 0).sort(( s1, s2 ) => s2.score - s1.score)
 }
 
 interface searchSplit {
@@ -36,18 +34,24 @@ function splitSearch ( search: string ): null | searchSplit {
 	return { word: word!, class: wordClass, num: num != null ? Number(num) : num }
 }
 
+function makeWordReg ( all: string[] ): string[] {
+	const match = all.length === 1 ? [ all ] : all.map(( _v, i ) => replaceAtIndex(all, i, "[^\\s,.!?$]{1,2}"))
+	return match.map(( en ) => en.join(""))
+}
 
 function initWordRegex ( word: string ) {
 	const all = [ ...word ].map(_escReg)
-	// todo maybe limit [^\s,.!?$] amt
-	// todo extra score for positional / full word match
-	const $all = all.length === 1 ? [ all ] : all.map(( _v, i ) => replaceAtIndex(all, i, "[^\\s,.!?$]*"))
-	const allReg = $all.map(( str ) => new RegExp(`${str.join("")}`, "i"))
+	const wordReg = makeWordReg(all)
+
+	const matchReg = wordReg.map(( str ) => new RegExp(`${str}`, "i"))
+	const startReg = wordReg.map(( str ) => new RegExp(`^${str}`))
 
 	return {
 		// todo better scoring ?
 		score ( word: string ) {
-			return allReg.reduce(( prev, curr ) => prev + ( curr.test(word) ? 1 : 0 ), 0)
+			const matches = matchReg.reduce(( prev, curr ) => prev + ( curr.test(word) ? 1 : 0 ), 0)
+			const isStart = startReg.some(( startReg ) => startReg.test(word))
+			return matches + +isStart
 		}
 	}
 }
