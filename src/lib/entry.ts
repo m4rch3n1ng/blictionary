@@ -9,6 +9,7 @@ export interface Entry {
 	forms?: string | string[]
 	etymology: string | string[]
 	definitions: (Definition | TopDefinition)[]
+	sub?: SubEntry[]
 }
 
 interface Pronounciation {
@@ -25,6 +26,13 @@ export interface TopDefinition {
 
 export interface Definition {
 	text: string
+	quotes?: Quote[]
+}
+
+export interface SubEntry {
+	word: string
+	class: string | string[]
+	definition: string
 	quotes?: Quote[]
 }
 
