@@ -1,11 +1,12 @@
 import type { smallEntry } from "./entry"
 
-// todo refine exclusion [^\s,.!$] probably
+// todo refine exclusion [^\s,.!?$] probably
 // need to exclude: more punctuation, fucked up punctuation
 // ? https://perldoc.perl.org/perlunicode#Unicode-Character-Properties
 // also i have the feeling that this is not hard to break somehow
+// nope it's not: ex leading whitespace, punct.
 // todo somewhere remove quotes, brackets?, parenthesis?
-const regexOfDoom = /^([^\s,.!$]+)[\s,.!$]*([^\s,!$]+)?[\s,.!$]*(\d+)?/
+const regexOfDoom = /^([^\s,.!?$]+)[\s,.!?$]*([^\s,.!?$]+)?[\s,.!?$]*(\d+)?/
 
 // todo actually name stuff
 // todo do stuff with class and num
@@ -24,9 +25,9 @@ export function fuzz ( allEntries: smallEntry[], search: string ): smallEntry[] 
 
 function initWordRegex ( word: string ) {
 	const all = [ ...word ].map(_escReg)
-	// todo maybe limit [^\\s,.!$] amt
+	// todo maybe limit [^\s,.!?$] amt
 	// todo extra score for positional / full word match
-	const $all = all.length === 1 ? [ all ] : all.map(( _v, i ) => replaceAtIndex(all, i, "[^\\s,.!$]*"))
+	const $all = all.length === 1 ? [ all ] : all.map(( _v, i ) => replaceAtIndex(all, i, "[^\\s,.!?$]*"))
 	const allReg = $all.map(( str ) => new RegExp(`${str.join("")}`, "i"))
 
 	return {
