@@ -20,7 +20,7 @@ export async function load ({ parent, url }) {
 		throw redirect(301, `/view/${entry.id}/${slugify(entry.word)}`) // todo
 	}
 
-	// const filteredEntries = allEntries.filter(fuzzyFilter(query, { iterator: ({ word }) => word }))
+	// todo limit query length
 	const filteredEntries = fuzz(allEntries, query)
 
 	return {
