@@ -16,9 +16,28 @@ export function fuzz ( allEntries: smallEntry[], search: string ): smallEntry[] 
 	const spl = splitSearch(search)
 	if (!spl) return []
 
-	const wordRegex = initWordRegex(spl.word)
-	const _allEntries: (smallEntry & { score: number })[] = allEntries.map(( entry ) => ({ ...entry, score: wordRegex.score(entry.word) }))
-	return _allEntries.filter(({ score }) => score !== 0).sort(( s1, s2 ) => s2.score - s1.score)
+	const wordScore = initWordScoring(spl.word)
+	const allScores: (smallEntry & { score: number })[] = allEntries.map(( entry ) => ({ ...entry, score: wordScore.score(entry.word, entry.class) }))
+	return allScores.filter(({ score }) => score !== 0).sort(( s1, s2 ) => s2.score - s1.score)
+}
+
+function initWordScoring ( word: string ) {
+	const all = [ ...word ].map(_escReg)
+	const wordReg = makeWordReg(all)
+
+	const matchReg = wordReg.map(( str ) => new RegExp(`${str}`, "i"))
+	const startReg = wordReg.map(( str ) => new RegExp(`^${str}`))
+
+	return {
+		// todo better scoring ?
+		// todo score for class
+		// todo open compound words
+		score ( word: string, _wordClass: string | string[] ) {
+			const matches = matchReg.reduce(( prev, curr ) => prev + ( curr.test(word) ? 1 : 0 ), 0)
+			const isStart = startReg.some(( startReg ) => startReg.test(word))
+			return matches + +isStart
+		}
+	}
 }
 
 interface searchSplit {
@@ -37,23 +56,6 @@ function splitSearch ( search: string ): null | searchSplit {
 function makeWordReg ( all: string[] ): string[] {
 	const match = all.length === 1 ? [ all ] : all.map(( _v, i ) => replaceAtIndex(all, i, "[^\\s,.!?$]{1,2}"))
 	return match.map(( en ) => en.join(""))
-}
-
-function initWordRegex ( word: string ) {
-	const all = [ ...word ].map(_escReg)
-	const wordReg = makeWordReg(all)
-
-	const matchReg = wordReg.map(( str ) => new RegExp(`${str}`, "i"))
-	const startReg = wordReg.map(( str ) => new RegExp(`^${str}`))
-
-	return {
-		// todo better scoring ?
-		score ( word: string ) {
-			const matches = matchReg.reduce(( prev, curr ) => prev + ( curr.test(word) ? 1 : 0 ), 0)
-			const isStart = startReg.some(( startReg ) => startReg.test(word))
-			return matches + +isStart
-		}
-	}
 }
 
 function replaceAtIndex ( arr: string[], i: number, rep: string ) {
