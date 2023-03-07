@@ -36,7 +36,7 @@
 		</div>
 	</button>
 	<input type="text" name="theme" value={invertTheme(init)} />
-	<input type="text" name="url" value={$page.url.pathname} />
+	<input type="text" name="url" value={$page.url.href} />
 </form>
 
 
