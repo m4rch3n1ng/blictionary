@@ -21,7 +21,7 @@ export async function load ({ parent, url }: PageServerLoadEvent ) {
 		throw redirect(301, `/view/${entry.id}/${slugify(entry.word)}`) // todo
 	}
 
-	// const filteredMeta = allMeta.filter(fuzzyFilter(query, { iterator: ({ word }) => word }))
+	// todo limit query length
 	const filteredMeta = fuzz(allMeta, query)
 
 	return {

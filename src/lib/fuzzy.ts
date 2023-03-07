@@ -1,61 +1,93 @@
 import type { smallMeta } from "./entry"
 
-// todo refine exclusion [^\s,.!?$] probably
-// need to exclude: more punctuation, fucked up punctuation
-// ? https://perldoc.perl.org/perlunicode#Unicode-Character-Properties
-// also i have the feeling that this is not hard to break somehow
-// nope it's not: ex leading whitespace, punct.
-// todo somewhere remove quotes, brackets?, parenthesis?
-const regexOfDoom = /^([^\s,.!?$]+)[\s,.!?$]*([^\s,.!?$]+)?[\s,.!?$]*(\d+)?/
-
-// todo actually name stuff
-// todo do stuff with class and num
-// todo refine some stuff probably
-// todo sort
 export function fuzz ( allMeta: smallMeta[], search: string ): smallMeta[] {
-	const spl = splitSearch(search)
+	const spl = splitSearchString(search)
 	if (!spl) return []
 
-	const wordScore = initWordScoring(spl.word)
+	const wordScore = initWordScoring(spl.search)
 	const allScores: (smallMeta & { score: number })[] = allMeta.map(( meta ) => ({ ...meta, score: wordScore.score(meta.word, meta.class) }))
-	return allScores.filter(({ score }) => score !== 0).sort(( s1, s2 ) => s2.score - s1.score)
+	return allScores.filter(({ score }) => score !== 0).sort(( m1, m2 ) => m2.score - m1.score)
 }
 
-function initWordScoring ( word: string ) {
-	const all = [ ...word ].map(_escReg)
-	const wordReg = makeWordReg(all)
+function initRegex ( search: string[] ) {
+	return search.map(( str ) => {
+		const wordSplit = [ ...str ].map(escapeRegex)
+		const wordReg = makeRegexString(wordSplit)
 
-	const matchReg = wordReg.map(( str ) => new RegExp(`${str}`, "i"))
-	const startReg = wordReg.map(( str ) => new RegExp(`^${str}`))
+		const matchReg = wordReg.map(( str ) => new RegExp(`${str}`, "i"))
+		const startReg = wordReg.map(( str ) => new RegExp(`^${str}`))
+
+		return {
+			class: /\.$/.test(str) ? str : `${str}.`,
+			match ( word: string ) { 
+				return matchReg.reduce(( prev, curr ) => prev + ( curr.test(word) ? 1 : 0 ), 0)
+			},
+			start ( word: string ) {
+				const isStart = startReg.some(( startReg ) => startReg.test(word))
+				return isStart ? 1 : 0
+			}
+		}
+	})
+}
+
+function initWordScoring ( search: string[] ) {
+	const fullRegex = initRegex(search)
 
 	return {
-		// todo better scoring ?
-		// todo score for class
-		// todo open compound words
-		score ( word: string, _wordClass: string | string[] ) {
-			const matches = matchReg.reduce(( prev, curr ) => prev + ( curr.test(word) ? 1 : 0 ), 0)
-			const isStart = startReg.some(( startReg ) => startReg.test(word))
-			return matches + +isStart
+		// todo num
+		// todo plus score for full word match
+		score ( word: string, wordClass: string | string[] ): number {
+			const words = word.split(/ +/g).filter(( w ) => w)
+
+			if (words.length === 1) {
+				const [ wordRegex, classRegex ] = fullRegex
+
+				const wordScore = wordRegex!.match(word) + wordRegex!.start(word) || 0
+				const classScore = classRegex?.class && classRegex.class === wordClass ? 1 : 0
+				return wordScore + classScore
+			} else if (words.length === 2) {
+				const wordsRegex = fullRegex.slice(0, 2)
+				const classRegex = fullRegex[2]
+
+				const wordScoreN = wordsRegex.reduce(( sum, regex ) => sum + regex.match(word) + regex.start(word), 0)
+				const wordScoreR = wordsRegex.reverse().reduce(( $, w ) => $ + w.match(word) + w.start(word), 0)
+
+				const wordScore = Math.max(wordScoreN, wordScoreR)
+				const classScore = classRegex?.class && classRegex.class === wordClass ? 1 : 0
+				return wordScore + classScore
+			} else if (words.length >= 3) {
+				const wordsReg = fullRegex.slice(0, words.length)
+				const classReg = fullRegex[words.length]
+
+				const wordScore = wordsReg.reduce(( sum, regex ) => sum + regex.match(word) + regex.start(word), 0)
+				const classScore = classReg?.class && classReg.class === wordClass ? 1 : 0
+				return wordScore + classScore
+			}
+
+			return 0
 		}
 	}
 }
 
 interface searchSplit {
-	word: string
-	class?: string
+	search: string[]
 	num?: number
 }
 
-function splitSearch ( search: string ): null | searchSplit {
-	if (!regexOfDoom.test(search)) return null
+// todo refine split [\s"'()\[\]{},.!?$] probably
+// todo num
+const regexSplit = /[\s"'()\[\]{},.!?$]+/g
+function splitSearchString ( search: string ): null | searchSplit {
+	const split = search.split(regexSplit).filter(( w ) => w)
 
-	const [ , word, wordClass, num ] = [ ...regexOfDoom.exec(search)!.values() ]
-	return { word: word!, class: wordClass, num: num != null ? Number(num) : num }
+	if (!split.length) return null
+	return { search: split }
 }
 
-function makeWordReg ( all: string[] ): string[] {
-	const match = all.length === 1 ? [ all ] : all.map(( _v, i ) => replaceAtIndex(all, i, "[^\\s,.!?$]{1,2}"))
-	return match.map(( en ) => en.join(""))
+function makeRegexString ( all: string[] ): string[] {
+	// todo {1,2} or {0,2}
+	const matches = all.length === 1 ? [ all ] : all.map(( _v, i ) => replaceAtIndex(all, i, "[^\\s,.!?$]{0,2}"))
+	return matches.map(( word ) => word.join(""))
 }
 
 function replaceAtIndex ( arr: string[], i: number, rep: string ) {
@@ -65,6 +97,6 @@ function replaceAtIndex ( arr: string[], i: number, rep: string ) {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping 
-function _escReg ( w: string ) {
+function escapeRegex ( w: string ) {
 	return w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
 }
