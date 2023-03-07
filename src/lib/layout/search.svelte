@@ -10,6 +10,8 @@
 	const search = initSearch(allMeta)
 
 	let value = get(page).url.searchParams.get("q") || ""
+	search(value)
+
 	let focus = false
 	function focusIn () {
 		focus = true
@@ -18,6 +20,7 @@
 	afterNavigate(( afterNav ) => {
 		focus = false
 		value = afterNav.to?.url.searchParams.get("q") || ""
+		search(value)
 	})
 
 	let searchContainer: HTMLElement
@@ -52,7 +55,7 @@
 			<div class="input-container">
 				<form action="/search" class="input-layout">
 
-					<input bind:value on:input={search} on:focus={focusIn} on:focusin={focusIn} on:keydown={keydown}
+					<input bind:value on:input={( ev ) => search(ev.currentTarget.value)} on:focus={focusIn} on:focusin={focusIn} on:keydown={keydown}
 						type="search"
 						name="q"
 						id="search-input"

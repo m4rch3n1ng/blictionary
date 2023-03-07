@@ -5,19 +5,18 @@ import type { smallMeta } from "./entry"
 export const items = writable<smallMeta[]>([])
 
 export function initSearch ( allMeta: smallMeta[] ) {
-	return function search ( ev: Event & { currentTarget: EventTarget & HTMLInputElement } ) {
-		const input = ev.currentTarget
-		if (!input.value.length) {
+	return function search ( value: string ) {
+		if (!value.length) {
 			items.set([])
 		} else {
-			const it = filterSearch(input)
+			const it = filterSearch(value)
 			items.set(it)
 		}
 	}
 
-	function filterSearch ( input: HTMLInputElement ) {
-		const filtered = allMeta.filter(fuzzyFilter(input.value, { iterator: ({ word }) => word }))
-		const sorted = filtered.sort(fuzzySort(input.value, { iterator: ({ word }) => word }))
+	function filterSearch ( value: string ) {
+		const filtered = allMeta.filter(fuzzyFilter(value, { iterator: ({ word }) => word }))
+		const sorted = filtered.sort(fuzzySort(value, { iterator: ({ word }) => word }))
 
 		return sorted
 	}
