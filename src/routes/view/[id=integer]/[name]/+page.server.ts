@@ -1,5 +1,5 @@
 import { getEntry, hasEntry } from "$lib/entry"
-import slugify from "@sindresorhus/slugify"
+import { slugify } from "$lib/markdown"
 import { error, redirect } from "@sveltejs/kit"
 import type { PageServerLoadEvent } from "./$types"
 

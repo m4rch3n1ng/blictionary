@@ -1,6 +1,6 @@
 import { marked } from "marked"
 import type { smallMeta } from "./entry"
-import slugify from "@sindresorhus/slugify"
+import slug from "@sindresorhus/slugify"
 
 export let inlineMarkdown: ( md: string ) => string
 
@@ -109,4 +109,9 @@ export function wordClassToString ( wordClass: string | string[], html: boolean 
 	}
 
 	return string
+}
+
+export function slugify ( word: string ) {
+	const slugified = slug(word, { separator: "_", preserveCharacters: [ "-" ]})
+	return slugified.replace(/_/g, "-")
 }
