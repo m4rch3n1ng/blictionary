@@ -1,6 +1,6 @@
 import { writable } from "svelte/store"
 import type { smallEntry } from "./entry"
-import { fuzz } from "./fuzzy"
+import { fuzzy } from "./fuzzy"
 
 export const items = writable<smallEntry[]>([])
 
@@ -9,7 +9,7 @@ export function initSearch ( allEntries: smallEntry[] ) {
 		if (!value.length) {
 			items.set([])
 		} else {
-			const sortEntries = fuzz(allEntries, value)
+			const sortEntries = fuzzy(allEntries, value)
 			items.set(sortEntries)
 		}
 	}

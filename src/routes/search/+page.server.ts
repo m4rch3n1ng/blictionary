@@ -1,6 +1,5 @@
-import { fuzz } from "$lib/fuzzy"
+import { fuzzy } from "$lib/fuzzy"
 import { redirect } from "@sveltejs/kit"
-// import { filter as fuzzyFilter } from "fuzzyjs"
 import { slugify } from "$lib/markdown"
 
 export async function load ({ parent, url }) {
@@ -20,8 +19,8 @@ export async function load ({ parent, url }) {
 		throw redirect(301, `/view/${entry.id}/${slugify(entry.word)}`) // todo
 	}
 
-	// todo limit query length
-	const filteredEntries = fuzz(allEntries, query)
+	const limitedQuery = query.length > 100 ? query.slice(0, 100) : query
+	const filteredEntries = fuzzy(allEntries, limitedQuery)
 
 	return {
 		search: filteredEntries

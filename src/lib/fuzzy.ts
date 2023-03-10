@@ -1,6 +1,6 @@
 import type { smallEntry } from "./entry"
 
-export function fuzz ( allEntries: smallEntry[], search: string ): smallEntry[] {
+export function fuzzy ( allEntries: smallEntry[], search: string ): smallEntry[] {
 	const spl = splitSearchString(search)
 	if (!spl) return []
 
