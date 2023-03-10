@@ -1,6 +1,6 @@
 import type { smallMeta } from "./entry"
 
-export function fuzz ( allMeta: smallMeta[], search: string ): smallMeta[] {
+export function fuzzy ( allMeta: smallMeta[], search: string ): smallMeta[] {
 	const spl = splitSearchString(search)
 	if (!spl) return []
 
