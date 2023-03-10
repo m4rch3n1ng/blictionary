@@ -19,10 +19,11 @@ function initRegex ( search: string[] ) {
 
 		return {
 			class: /\.$/.test(str) ? str : `${str}.`,
-			match ( word: string ) { 
+			match ( word: string ) {
 				return matchReg.reduce(( prev, curr ) => prev + ( curr.test(word) ? 1 : 0 ), 0)
 			},
-			start ( word: string ) {
+			start ( word: string | undefined ) {
+				if (!word) return 0
 				const isStart = startReg.some(( startReg ) => startReg.test(word))
 				return isStart ? 1 : 0
 			}
@@ -35,7 +36,6 @@ function initWordScoring ( search: string[] ) {
 
 	return {
 		// todo num
-		// todo plus score for full word match
 		score ( word: string, wordClass: string | string[] ): number {
 			const words = word.split(/ +/g).filter(( w ) => w)
 
@@ -43,25 +43,17 @@ function initWordScoring ( search: string[] ) {
 				const [ wordRegex, classRegex ] = fullRegex
 
 				const wordScore = wordRegex!.match(word) + wordRegex!.start(word) || 0
-				const classScore = classRegex?.class && classRegex.class === wordClass ? 1 : 0
-				return wordScore + classScore
-			} else if (words.length === 2) {
+				const classScore = ( classRegex?.class && classRegex.class === wordClass ) ? 1 : 0
+				const fullScore = search[0] === word ? 1 : 0
+				return wordScore + classScore + fullScore
+			} else if (words.length >= 2) {
 				const wordsRegex = fullRegex.slice(0, 2)
 				const classRegex = fullRegex[2]
 
-				const wordScoreN = wordsRegex.reduce(( sum, regex ) => sum + regex.match(word) + regex.start(word), 0)
-				const wordScoreR = wordsRegex.reverse().reduce(( $, w ) => $ + w.match(word) + w.start(word), 0)
-
-				const wordScore = Math.max(wordScoreN, wordScoreR)
+				const wordScore = wordsRegex.reduce(( sum, regex, i ) => sum + regex.match(word) + regex.start(words[i]), 0)
 				const classScore = classRegex?.class && classRegex.class === wordClass ? 1 : 0
-				return wordScore + classScore
-			} else if (words.length >= 3) {
-				const wordsReg = fullRegex.slice(0, words.length)
-				const classReg = fullRegex[words.length]
-
-				const wordScore = wordsReg.reduce(( sum, regex ) => sum + regex.match(word) + regex.start(word), 0)
-				const classScore = classReg?.class && classReg.class === wordClass ? 1 : 0
-				return wordScore + classScore
+				const fullScore = words.reduce(( sum, w ) => sum + +search.includes(w), 0)
+				return wordScore + classScore + fullScore
 			}
 
 			return 0
