@@ -9,10 +9,9 @@
 	text-decoration: 0;
 }
 
-/* todo check a11y */
-/* .md-link:focus {
-	outline: none;
-} */
+.md-link:focus-visible {
+	outline: thin solid var(--md-link-color);
+}
 
 .md-link::before {
 	content: "";

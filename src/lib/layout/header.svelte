@@ -36,7 +36,7 @@
 		box-sizing: border-box;
 		padding: 0.5rem;
 
-		margin-bottom: 0.5em;
+		margin-bottom: 0.8rem;
 	}
 
 	.layout {

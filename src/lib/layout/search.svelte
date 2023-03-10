@@ -39,9 +39,9 @@
 				goto(`/view/${item.id}/${item.word}`)		
 			}
 		} else if (ev.key === "ArrowDown") {
-			// todo handle error down
+			// todo handle arrow down
 		} else if (ev.key === "ArrowUp") {
-			// todo handle error up
+			// todo handle arrow up
 		}
 	}
 </script>

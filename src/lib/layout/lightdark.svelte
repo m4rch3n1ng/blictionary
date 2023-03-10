@@ -70,6 +70,10 @@
 		transition: background-color 0.2s ease;
 	}
 
+	button:focus-visible {
+		outline: 2px solid var(--text-color);
+	}
+
 	.dark, .light {
 		display: inline-block;
 		height: var(--header-svg-height);

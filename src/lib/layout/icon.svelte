@@ -16,6 +16,11 @@
 		transition: color 0.25s;
 	}
 
+	a:focus-visible {
+		outline: 2px solid var(--text-color);
+		outline-offset: 3px;
+	}
+
 	.wrap {
 		display: flex;
 		align-items: center;
