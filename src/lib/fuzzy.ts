@@ -47,8 +47,8 @@ function initWordScoring ( search: string[] ) {
 				const fullScore = search[0] === word ? 1 : 0
 				return wordScore + classScore + fullScore
 			} else if (words.length >= 2) {
-				const wordsRegex = fullRegex.slice(0, 2)
-				const classRegex = fullRegex[2]
+				const wordsRegex = fullRegex.slice(0, words.length)
+				const classRegex = fullRegex[words.length]
 
 				const wordScore = wordsRegex.reduce(( sum, regex, i ) => sum + regex.match(word) + regex.start(words[i]), 0)
 				const classScore = classRegex?.class && classRegex.class === wordClass ? 1 : 0
