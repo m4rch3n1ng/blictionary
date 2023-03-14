@@ -74,7 +74,7 @@
 
 				<div id="search-result" class="dropdown-container {focus && value && $items.length ? "active" : "inactive"}">
 					<div class="dropdown {focus && value && $items.length ? "active" : "inactive"}">
-						{#each $items as { id, word, class: wordClass }}
+						{#each $items.slice(0, 10) as { id, word, class: wordClass }}
 							<SearchItem {id} {word} {wordClass} />
 						{/each}
 					</div>
