@@ -1,6 +1,6 @@
-import type { smallEntry } from "./entry"
+import type { smallEntry } from "../entry"
 
-export function fuzzy ( allEntries: smallEntry[], search: string ): smallEntry[] {
+export function fuzzy ( search: string, allEntries: smallEntry[] ): smallEntry[] {
 	const spl = splitSearchString(search)
 	if (!spl) return []
 
@@ -8,7 +8,6 @@ export function fuzzy ( allEntries: smallEntry[], search: string ): smallEntry[]
 	const allScores: (smallEntry & { score: number })[] = allEntries.map(( entry ) => ({ ...entry, score: wordScore.score(entry.word, entry.class) }))
 	return allScores.filter(({ score }) => score !== 0).sort(( m1, m2 ) => m2.score - m1.score)
 }
-
 
 // todo performance
 // - remove unnecessary calls to the .start matcher

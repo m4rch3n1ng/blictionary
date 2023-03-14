@@ -1,4 +1,4 @@
-import { fuzzy } from "$lib/fuzzy"
+import { fuzzy } from "$lib/search/fuzzy"
 import { redirect } from "@sveltejs/kit"
 import { slugify } from "$lib/markdown"
 
@@ -20,7 +20,7 @@ export async function load ({ parent, url }) {
 	}
 
 	const limitedQuery = query.length > 100 ? query.slice(0, 100) : query
-	const filteredEntries = fuzzy(allEntries, limitedQuery)
+	const filteredEntries = fuzzy(limitedQuery, allEntries)
 
 	return {
 		search: filteredEntries
