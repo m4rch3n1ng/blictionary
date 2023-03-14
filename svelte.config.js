@@ -1,7 +1,7 @@
 import adapter from "@sveltejs/adapter-node"
 import { vitePreprocess } from "@sveltejs/kit/vite"
 
-/** @type {import('@sveltejs/kit').Config} */
+/** @type {import("@sveltejs/kit").Config} */
 export default {
 	preprocess: vitePreprocess(),
 	kit: {
@@ -11,6 +11,7 @@ export default {
 			directives: {
 				"default-src": [ "self" ],
 				"script-src": [ "self" ], // todo fix "strict-dynamic"
+				"worker-src": [ "self" ],
 				"style-src": [ "self", "unsafe-inline" ],
 				"font-src": [ "self", "data:" ],
 				"img-src": [ "self", "data:" ],

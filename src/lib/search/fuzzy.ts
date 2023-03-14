@@ -1,6 +1,6 @@
-import type { smallMeta } from "./entry"
+import type { smallMeta } from "../entry"
 
-export function fuzzy ( allMeta: smallMeta[], search: string ): smallMeta[] {
+export function fuzzy ( search: string, allMeta: smallMeta[] ): smallMeta[] {
 	const spl = splitSearchString(search)
 	if (!spl) return []
 
@@ -8,7 +8,6 @@ export function fuzzy ( allMeta: smallMeta[], search: string ): smallMeta[] {
 	const allScores: (smallMeta & { score: number })[] = allMeta.map(( meta ) => ({ ...meta, score: wordScore.score(meta.word, meta.class) }))
 	return allScores.filter(({ score }) => score !== 0).sort(( m1, m2 ) => m2.score - m1.score)
 }
-
 
 // todo performance
 // - remove unnecessary calls to the .start matcher
