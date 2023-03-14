@@ -63,21 +63,46 @@ export interface smallEntry {
 	class: string | string[],
 }
 
+// add proper caching
+// reload the cache sometimes
+let allEntries: null | smallEntry[] = null
 export async function fetchAllEntries () {
-	const path = "entries"
-	const all = await readdir(path)
-	const allEntries: smallEntry[] = await Promise.all(
-		all.filter(( fileName ) => /\.json$/.test(fileName)).map(async ( fileName ) => {
-			const filePath = joinPath(path, fileName)
-			const content = await readFile(filePath)
-			const entry: Entry = JSON.parse(content.toString())
-			return {
-				id: fileName.slice(0, -5),
-				word: entry.word,
-				class: entry.class
-			}
-		})
-	)
+	if (allEntries) {
+		return allEntries
+	} else {
+		const path = "entries"
+		const all = await readdir(path)
+		const smallEntries: smallEntry[] = await Promise.all(
+			all.filter(( fileName ) => /\.json$/.test(fileName)).map(async ( fileName ) => {
+				const filePath = joinPath(path, fileName)
+				return tmpTDelay(filePath, fileName.slice(0, -5))
+			})
+		)
 
-	return allEntries
+		allEntries = smallEntries
+		return smallEntries.sort(( a, b ) => +a.id - +b.id)
+	}
+}
+
+// name
+// type the error
+async function tmpTDelay ( filePath: string, id: string ): Promise<smallEntry> {
+	try {
+		const content = await readFile(filePath)
+		const entry: Entry = JSON.parse(content.toString())
+		return {
+			id,
+			word: entry.word,
+			class: entry.class
+		}
+	} catch ( e: any ) {
+		if (e.code === "EMFILE") {
+			// return new Promise<smallEntries>(( resolve ) => {
+			// 	setTimeout(() => resolve(tmpTDelay(filePath, id)), 0)
+			// })
+			return tmpTDelay(filePath, id)
+		} else {
+			throw e
+		}
+	}
 }
