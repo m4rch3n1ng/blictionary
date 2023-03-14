@@ -1,5 +1,5 @@
+import { fuzzy } from "$lib/search/fuzzy"
 import { redirect } from "@sveltejs/kit"
-import { filter as fuzzyFilter } from "fuzzyjs"
 import type { PageServerLoadEvent } from "./$types"
 import { slugify } from "$lib/markdown"
 
@@ -20,7 +20,8 @@ export async function load ({ parent, url }: PageServerLoadEvent ) {
 		throw redirect(301, `/view/${entry.id}/${slugify(entry.word)}`) // todo
 	}
 
-	const filteredMeta = allMeta.filter(fuzzyFilter(query, { iterator: ({ word }) => word }))
+	const limitedQuery = query.length > 100 ? query.slice(0, 100) : query
+	const filteredMeta = fuzzy(limitedQuery, allMeta)
 
 	return {
 		search: filteredMeta
