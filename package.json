@@ -13,6 +13,7 @@
 	},
 	"dependencies": {
 		"@sindresorhus/slugify": "^2.2.0",
+		"comlink": "^4.4.1",
 		"marked": "^4.2.12"
 	},
 	"devDependencies": {

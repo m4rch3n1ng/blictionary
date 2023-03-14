@@ -3,14 +3,17 @@
 	import { afterNavigate, goto } from "$app/navigation"
 	import { page } from "$app/stores"
 	import type { smallMeta } from "$lib/entry"
-	import { initSearch, items } from "$lib/search"
+	import { search, initSearch, items } from "$lib/search/search"
 	import SearchItem from "./search-item.svelte"
+    import { onMount } from "svelte";
 
 	export let allMeta: smallMeta[]
-	const search = initSearch(allMeta)
 
 	let value = get(page).url.searchParams.get("q") || ""
-	search(value)
+	onMount(async () => {
+		await initSearch(allMeta)
+		search(value)
+	})
 
 	let focus = false
 	function focusIn () {
