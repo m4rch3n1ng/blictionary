@@ -1,4 +1,5 @@
-import { existsSync } from "node:fs"
+import CheapWatch from "cheap-watch"
+import { existsSync, type Stats } from "node:fs"
 import { readFile, readdir } from "node:fs/promises"
 import { join as joinPath } from "node:path"
 
@@ -63,46 +64,93 @@ export interface smallEntry {
 	class: string | string[],
 }
 
-// add proper caching
-// reload the cache sometimes
-let allEntries: null | smallEntry[] = null
-export async function fetchAllEntries () {
-	if (allEntries) {
+function entryCache () {
+	const path = "entries"
+	const allEntryMap = new Map<string, smallEntry>
+	let allEntries: smallEntry[] | null = null
+
+	const watcher = new CheapWatch({ dir: path, filter: watchFilter })
+	watcher.init()
+	watcher.on("+", plus)
+	watcher.on("-", minus)
+
+	function watchFilter ({ path, stats }: { path: string, stats: Stats }) {
+		return isJSON(path) && stats.isFile()
+	}
+
+	async function plus ({ path: fileName }: { path: string }) {
+		const id = fileName.slice(0, -5)
+		const filePath = joinPath(path, fileName)
+		await hitOnce(filePath, id)
+		mapToArray()
+	}
+
+	function minus ({ path: fileName }: { path: string }) {
+		const id = fileName.slice(0, -5)
+		allEntryMap.delete(id)
+	}
+
+
+	// todo check for id
+	// todo function get id
+	function isJSON ( name: string ) {
+		return /\.json$/.test(name)
+	}
+
+	// todo catch json errors
+	async function readSmallEntry ( filePath: string, id: string ): Promise<smallEntry> {
+		try {
+			const content = await readFile(filePath)
+			const entry: Entry = JSON.parse(content.toString())
+			return {
+				id,
+				word: entry.word,
+				class: entry.class
+			}
+		} catch ( e: any ) {
+			if (e.code === "EMFILE") {
+				return readSmallEntry(filePath, id)
+			} else {
+				throw e
+			}
+		}
+	}
+
+	function mapToArray (): smallEntry[] {
+		allEntries = [ ...allEntryMap.values() ].sort(( a, b ) => +a.id - +b.id)
 		return allEntries
-	} else {
-		const path = "entries"
+	}
+
+	async function hitOnce ( filePath: string, id: string ) {
+		const smallEntry = await readSmallEntry(filePath, id)
+		allEntryMap.set(smallEntry.id, smallEntry)
+	}
+
+	async function hit (): Promise<smallEntry[]> {
 		const all = await readdir(path)
-		const smallEntries: smallEntry[] = await Promise.all(
-			all.filter(( fileName ) => /\.json$/.test(fileName)).map(async ( fileName ) => {
+		await Promise.all(
+			all.filter(isJSON).map(( fileName ) => {
 				const filePath = joinPath(path, fileName)
-				return tmpTDelay(filePath, fileName.slice(0, -5))
+				const id = fileName.slice(0, -5)
+				return hitOnce(filePath, id)
 			})
 		)
 
-		allEntries = smallEntries
-		return smallEntries.sort(( a, b ) => +a.id - +b.id)
+		return mapToArray()
+	}
+
+	return {
+		async get (): Promise<smallEntry[]> {
+			if (allEntries) {
+				return allEntries
+			} else {
+				return hit()
+			}
+		}
 	}
 }
 
-// name
-// type the error
-async function tmpTDelay ( filePath: string, id: string ): Promise<smallEntry> {
-	try {
-		const content = await readFile(filePath)
-		const entry: Entry = JSON.parse(content.toString())
-		return {
-			id,
-			word: entry.word,
-			class: entry.class
-		}
-	} catch ( e: any ) {
-		if (e.code === "EMFILE") {
-			// return new Promise<smallEntries>(( resolve ) => {
-			// 	setTimeout(() => resolve(tmpTDelay(filePath, id)), 0)
-			// })
-			return tmpTDelay(filePath, id)
-		} else {
-			throw e
-		}
-	}
+const cache = entryCache()
+export function fetchAllEntries (): Promise<smallEntry[]> {
+	return cache.get()
 }
