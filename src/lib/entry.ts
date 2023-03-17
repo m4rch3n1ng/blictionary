@@ -1,4 +1,5 @@
-import { existsSync } from "node:fs"
+import CheapWatch from "cheap-watch"
+import { existsSync, type Stats } from "node:fs"
 import { readFile, readdir } from "node:fs/promises"
 import { join as joinPath } from "node:path"
 
@@ -63,46 +64,94 @@ export interface smallMeta {
 	class: string | string[],
 }
 
-// add proper caching
-// reload the cache sometimes
-let allEntries: null | smallMeta[] = null
-export async function fetchAllMeta () {
-	if (allEntries) {
-		return allEntries
-	} else {
-		const path = "entries"
+function entryCache () {
+	const path = "entries"
+	const allMetaMap = new Map<string, smallMeta>
+	let allMeta: smallMeta[] | null = null
+
+	const watcher = new CheapWatch({ dir: path, filter: watchFilter })
+	watcher.init()
+	watcher.on("+", plus)
+	watcher.on("-", minus)
+
+	function watchFilter ({ path, stats }: { path: string, stats: Stats }) {
+		return isJSON(path) && stats.isFile()
+	}
+
+	async function plus ({ path: fileName }: { path: string }) {
+		const id = fileName.slice(0, -5)
+		const filePath = joinPath(path, fileName)
+		await hitOnce(filePath, id)
+		mapToArray()
+	}
+
+	function minus ({ path: fileName }: { path: string }) {
+		const id = fileName.slice(0, -5)
+		allMetaMap.delete(id)
+	}
+
+
+	// todo check for id
+	// todo function get id
+	function isJSON ( name: string ) {
+		return /\.json$/.test(name)
+	}
+
+	// todo catch json errors
+	async function readMeta ( filePath: string, id: string ): Promise<smallMeta> {
+		try {
+			const content = await readFile(filePath)
+			const entry: Entry = JSON.parse(content.toString())
+			return {
+				id,
+				word: entry.word,
+				class: entry.class
+			}
+		} catch ( e: any ) {
+			if (e.code === "EMFILE") {
+				return readMeta(filePath, id)
+			} else {
+				throw e
+			}
+		}
+	}
+
+
+	function mapToArray (): smallMeta[] {
+		allMeta = [ ...allMetaMap.values() ].sort(( a, b ) => +a.id - +b.id)
+		return allMeta
+	}
+
+	async function hitOnce ( filePath: string, id: string ) {
+		const smallMeta = await readMeta(filePath, id)
+		allMetaMap.set(smallMeta.id, smallMeta)
+	}
+
+	async function hit (): Promise<smallMeta[]> {
 		const all = await readdir(path)
-		const allMeta: smallMeta[] = await Promise.all(
-			all.filter(( fileName ) => /\.json$/.test(fileName)).map(async ( fileName ) => {
+		await Promise.all(
+			all.filter(isJSON).map(( fileName ) => {
 				const filePath = joinPath(path, fileName)
-				return tmpTDelay(filePath, fileName.slice(0, -5))
+				const id = fileName.slice(0, -5)
+				return hitOnce(filePath, id)
 			})
 		)
 
-		allEntries = allMeta
-		return allMeta.sort(( a, b ) => +a.id - +b.id)
+		return mapToArray()
+	}
+
+	return {
+		async get (): Promise<smallMeta[]> {
+			if (allMeta) {
+				return allMeta
+			} else {
+				return hit()
+			}
+		}
 	}
 }
 
-// name
-// type the error
-async function tmpTDelay ( filePath: string, id: string ): Promise<smallMeta> {
-	try {
-		const content = await readFile(filePath)
-		const entry: Entry = JSON.parse(content.toString())
-		return {
-			id,
-			word: entry.word,
-			class: entry.class
-		}
-	} catch ( e: any ) {
-		if (e.code === "EMFILE") {
-			// return new Promise<smallMeta>(( resolve ) => {
-			// 	setTimeout(() => resolve(tmpTDelay(filePath, id)), 0)
-			// })
-			return tmpTDelay(filePath, id)
-		} else {
-			throw e
-		}
-	}
+const cache = entryCache()
+export function fetchAllMeta (): Promise<smallMeta[]> {
+	return cache.get()
 }
