@@ -1,6 +1,6 @@
 import { redirect } from "@sveltejs/kit"
 
 // todo make 404 page
-export async function GET () {
+export function GET (): Response {
 	throw redirect(301, "/")
 }

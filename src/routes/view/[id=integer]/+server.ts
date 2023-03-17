@@ -3,8 +3,9 @@ import { slugify } from "$lib/markdown"
 import { error, redirect } from "@sveltejs/kit"
 import type { RequestEvent } from "./$types"
 
-export async function GET ({ params }: RequestEvent ) {
+export async function GET ({ params }: RequestEvent ): Promise<Response> {
 	if (!hasEntry(params.id)) throw error(404, "not found")
+
 	const { word } = await getEntry(params.id)
 	throw redirect(301, `/view/${params.id}/${slugify(word)}`)
 }

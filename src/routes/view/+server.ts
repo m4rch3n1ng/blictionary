@@ -1,5 +1,5 @@
 import { redirect } from "@sveltejs/kit"
 
-export async function GET () {
+export function GET (): Response {
 	throw redirect(301, "/")
 }
