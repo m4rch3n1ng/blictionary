@@ -150,7 +150,4 @@ function entryCache () {
 	}
 }
 
-const cache = entryCache()
-export function fetchAllEntries (): Promise<smallEntry[]> {
-	return cache.get()
-}
+export const cache = entryCache()
