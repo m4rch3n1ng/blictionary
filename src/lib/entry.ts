@@ -57,16 +57,16 @@ export async function getEntry ( id: string ): Promise<Entry> {
 	return entry
 }
 
-export interface smallMeta {
+export interface smallEntry {
 	id: string
 	word: string
 	class: string | string[],
 }
 
-export async function fetchAllMeta () {
+export async function fetchAllEntries () {
 	const path = "entries"
 	const all = await readdir(path)
-	const allMeta: smallMeta[] = await Promise.all(
+	const allEntries: smallEntry[] = await Promise.all(
 		all.filter(( fileName ) => /\.json$/.test(fileName)).map(async ( fileName ) => {
 			const filePath = joinPath(path, fileName)
 			const content = await readFile(filePath)
@@ -79,5 +79,5 @@ export async function fetchAllMeta () {
 		})
 	)
 
-	return allMeta
+	return allEntries
 }

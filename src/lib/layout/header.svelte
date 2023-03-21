@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { smallMeta } from "$lib/entry"
+	import type { smallEntry } from "$lib/entry"
 	import Icon from "./icon.svelte"
 	import LightDark from "./lightdark.svelte"
 	import Search from "./search.svelte"
 
-	export let allMeta: smallMeta[]
+	export let allEntries: smallEntry[]
 	export let theme: string | undefined
 </script>
 
@@ -16,7 +16,7 @@
 	</div>
 
 	<div class="layout mid">
-		<Search {allMeta} />
+		<Search {allEntries} />
 	</div>
 
 	<div class="layout right">

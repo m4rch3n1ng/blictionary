@@ -2,12 +2,12 @@
 	import { get } from "svelte/store"
 	import { afterNavigate, goto } from "$app/navigation"
 	import { page } from "$app/stores"
-	import type { smallMeta } from "$lib/entry"
+	import type { smallEntry } from "$lib/entry"
 	import { initSearch, items } from "$lib/search"
 	import SearchItem from "./search-item.svelte"
 
-	export let allMeta: smallMeta[]
-	const search = initSearch(allMeta)
+	export let allEntries: smallEntry[]
+	const search = initSearch(allEntries)
 
 	let value = get(page).url.searchParams.get("q") || ""
 	search(value)

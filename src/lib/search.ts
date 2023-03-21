@@ -1,10 +1,10 @@
 import { filter as fuzzyFilter, sort as fuzzySort } from "fuzzyjs"
 import { writable } from "svelte/store"
-import type { smallMeta } from "./entry"
+import type { smallEntry } from "./entry"
 
-export const items = writable<smallMeta[]>([])
+export const items = writable<smallEntry[]>([])
 
-export function initSearch ( allMeta: smallMeta[] ) {
+export function initSearch ( allEntries: smallEntry[] ) {
 	return function search ( value: string ) {
 		if (!value.length) {
 			items.set([])
@@ -15,7 +15,7 @@ export function initSearch ( allMeta: smallMeta[] ) {
 	}
 
 	function filterSearch ( value: string ) {
-		const filtered = allMeta.filter(fuzzyFilter(value, { iterator: ({ word }) => word }))
+		const filtered = allEntries.filter(fuzzyFilter(value, { iterator: ({ word }) => word }))
 		const sorted = filtered.sort(fuzzySort(value, { iterator: ({ word }) => word }))
 
 		return sorted

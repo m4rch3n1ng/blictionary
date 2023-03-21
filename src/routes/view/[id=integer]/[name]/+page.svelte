@@ -9,7 +9,7 @@
 	export let data: PageData
 	$: entry = data.entry
 
-	initMark(data.allMeta)
+	initMark(data.allEntries)
 </script>
 
 

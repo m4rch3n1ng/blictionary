@@ -1,10 +1,10 @@
 import { marked } from "marked"
-import type { smallMeta } from "./entry"
+import type { smallEntry } from "./entry"
 import slug from "@sindresorhus/slugify"
 
 export let inlineMarkdown: ( md: string ) => string
 
-export function initMark ( allMeta: smallMeta[] ) {
+export function initMark ( allEntries: smallEntry[] ) {
 	const markedExtensions: marked.TokenizerAndRendererExtension[] = [
 		{
 			name: "underline",
@@ -51,7 +51,7 @@ export function initMark ( allMeta: smallMeta[] ) {
 				}
 			},
 			renderer ( token ) {
-				const found = findEntry(token.word, token.class, allMeta)
+				const found = findEntry(token.word, token.class, allEntries)
 				const href = found ? `/view/${found.id}/${slugify(token.word)}` : `/view/404/${encodeURIComponent(token.word)}`
 				token.render = `<a class="md-link" href="${href}"><span class="md-word">${token.word}</span>, <em>${token.class}</em></a>`
 				return token.render
@@ -85,9 +85,9 @@ export function initMark ( allMeta: smallMeta[] ) {
 	}
 }
 
-function findEntry ( word: string, wordClass: string, allMeta: smallMeta[] ) {
-	const found = allMeta.find(( meta ) => (
-		meta.word === word && ( Array.isArray(meta.class) ? meta.class.includes(wordClass) : meta.class === wordClass )
+function findEntry ( word: string, wordClass: string, allEntries: smallEntry[] ) {
+	const found = allEntries.find(( entry ) => (
+		entry.word === word && ( Array.isArray(entry.class) ? entry.class.includes(wordClass) : entry.class === wordClass )
 	))
 	return found
 }

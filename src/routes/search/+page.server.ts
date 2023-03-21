@@ -4,25 +4,25 @@ import type { PageServerLoadEvent } from "./$types"
 import { slugify } from "$lib/markdown"
 
 export async function load ({ parent, url }: PageServerLoadEvent ) {
-	const { allMeta } = await parent()
+	const { allEntries } = await parent()
 	const query = url.searchParams.get("q")
 
 	if (!query) {
 		if (url.searchParams.has("q")) throw redirect(301, "/search")
 		return {
-			search: allMeta
+			search: allEntries
 		}
 	}
 
-	const allFind = allMeta.filter(({ word }) => word === query)
+	const allFind = allEntries.filter(({ word }) => word === query)
 	if (allFind.length === 1 && allFind[0]) {
 		const entry = allFind[0]
 		throw redirect(301, `/view/${entry.id}/${slugify(entry.word)}`) // todo
 	}
 
-	const filteredMeta = allMeta.filter(fuzzyFilter(query, { iterator: ({ word }) => word }))
+	const filteredEntries = allEntries.filter(fuzzyFilter(query, { iterator: ({ word }) => word }))
 
 	return {
-		search: filteredMeta
+		search: filteredEntries
 	}
 }
