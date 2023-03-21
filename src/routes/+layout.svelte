@@ -7,6 +7,6 @@
 </script>
 
 
-<Header theme={data.theme} allEntries={data.allEntries} />
+<Header theme={data.theme} zip={data.zip} />
 
 <slot />

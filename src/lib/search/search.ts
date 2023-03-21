@@ -24,3 +24,5 @@ export async function initSearch ( allEntries: smallEntry[] ) {
 
 	await fuzzy.init(allEntries)
 }
+
+// todo ungzip fetch etc

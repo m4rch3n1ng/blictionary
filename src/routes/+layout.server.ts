@@ -1,12 +1,15 @@
 import { cache } from "$lib/entry"
 import type { LayoutServerLoadEvent } from "./$types"
+import zlib from "node:zlib"
 
 export async function load ({ cookies }: LayoutServerLoadEvent ) {
-	// load times are only slow because of data serialization
-	// todo find some way to compress and decompress on the server side
 	const allEntries = await cache.get()
+	const zip = zlib.gzipSync(JSON.stringify(allEntries))
+
 	return {
-		allEntries,
+		// filter allEntries for useful ones only
+		allEntries: allEntries.slice(0, 1),
+		zip: [ ...zip ],
 		theme: cookies.get("theme")
 	}
 }
