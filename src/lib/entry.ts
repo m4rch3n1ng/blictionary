@@ -2,6 +2,10 @@ import CheapWatch from "cheap-watch"
 import { existsSync, type Stats } from "node:fs"
 import { readFile, readdir } from "node:fs/promises"
 import { join as joinPath } from "node:path"
+import { promisify } from "node:util"
+import { gzip as gzipCb } from "node:zlib"
+
+const gzip = promisify(gzipCb)
 
 export interface Entry {
 	word: string
@@ -139,13 +143,22 @@ function entryCache () {
 		return mapToArray()
 	}
 
+	/* */
+
+	async function get (): Promise<smallEntry[]> {
+		if (allEntries) {
+			return allEntries
+		} else {
+			return hit()
+		}
+	}
+
 	return {
-		async get (): Promise<smallEntry[]> {
-			if (allEntries) {
-				return allEntries
-			} else {
-				return hit()
-			}
+		get,
+		async zip () {
+			const nAllEntries = await get()
+			const zip = await gzip(JSON.stringify(nAllEntries))
+			return zip
 		}
 	}
 }
