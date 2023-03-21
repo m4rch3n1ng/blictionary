@@ -151,7 +151,4 @@ function entryCache () {
 	}
 }
 
-const cache = entryCache()
-export function fetchAllMeta (): Promise<smallMeta[]> {
-	return cache.get()
-}
+export const cache = entryCache()
