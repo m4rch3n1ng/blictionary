@@ -7,7 +7,7 @@
 	"keywords": [],
 	"scripts": {
 		"build": "node scripts/pre.build.js && vite build && node scripts/post.build.js",
-		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"dev": "vite dev",
 		"preview": "vite preview"
 	},
