@@ -5,7 +5,7 @@ import type { smallEntry } from "$lib/entry"
 import type { worker } from "./worker"
 
 export const items = writable<smallEntry[]>([])
-export let search: ( val: string ) => Promise<void>
+export let search: ( val: string ) => Promise<void> = () => Promise.resolve()
 
 export async function initSearch ( allEntries: smallEntry[] ) {
 	if (!browser) return
