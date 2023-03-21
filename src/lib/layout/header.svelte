@@ -3,7 +3,6 @@
 	import LightDark from "./lightdark.svelte"
 	import Search from "./search.svelte"
 
-	export let zip: number[]
 	export let theme: string | undefined
 </script>
 
@@ -15,7 +14,7 @@
 	</div>
 
 	<div class="layout mid">
-		<Search {zip} />
+		<Search />
 	</div>
 
 	<div class="layout right">

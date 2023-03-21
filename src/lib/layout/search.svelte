@@ -8,22 +8,20 @@
 	import type { smallMeta } from "$lib/entry"
 	import SearchItem from "./search-item.svelte"
 
-	export let zip: number[]
-
 	let value = get(page).url.searchParams.get("q") || ""
 
-	// todo maybe fetch dynamically
 	// todo extra file
 	onMount(async () => {
+		const data = await fetch("/app/zip")
+		const zip = await data.json()
+
 		const decoder = new TextDecoder()
 		const compressed = new Uint8Array(zip)
 		const decompress = ungzip(compressed)
 		const decode = decoder.decode(decompress)
 
 		const allMeta: smallMeta[] = JSON.parse(decode)
-		console.log(allMeta)
 
-		// todo safe-guard against crash without data
 		await initSearch(allMeta)
 		search(value)
 	})

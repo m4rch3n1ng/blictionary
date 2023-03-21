@@ -5,7 +5,7 @@ import type { smallMeta } from "$lib/entry"
 import type { worker } from "./worker"
 
 export const items = writable<smallMeta[]>([])
-export let search: ( val: string ) => Promise<void>
+export let search: ( val: string ) => Promise<void> = () => Promise.resolve()
 
 export async function initSearch ( allMeta: smallMeta[] ) {
 	if (!browser) return
