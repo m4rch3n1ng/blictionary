@@ -1,18 +1,17 @@
-import type { smallEntry } from "../entry"
+interface minimumEntry {
+	word: string
+	class: string | string[]
+}
 
-export function fuzzy ( search: string, allEntries: smallEntry[] ): smallEntry[] {
+export function fuzzy <T extends minimumEntry> ( search: string, allEntries: T[] ): T[] {
 	const spl = splitSearchString(search)
 	if (!spl) return []
 
 	const wordScore = initWordScoring(spl.search)
-	const allScores: (smallEntry & { score: number })[] = allEntries.map(( entry ) => ({ ...entry, score: wordScore.score(entry.word, entry.class) }))
+	const allScores: (T & { score: number })[] = allEntries.map(( entry ) => ({ ...entry, score: wordScore.score(entry.word, entry.class) }))
 	return allScores.filter(({ score }) => score !== 0).sort(( m1, m2 ) => m2.score - m1.score)
 }
 
-// todo performance
-// - remove unnecessary calls to the .start matcher
-// - remove fullScore without wordScore
-// - do we even want to check for classes without a wordScore ?
 function initWordScoring ( search: string[] ) {
 	const fullRegex = initRegex(search)
 
@@ -55,6 +54,7 @@ function initWordScoring ( search: string[] ) {
 }
 
 // i should be able to halve the amount of regexes by replacing two characters at once i think ?
+// .reduce is perhaps slow
 function initRegex ( search: string[] ) {
 	return search.map(( str ) => {
 		const wordSplit = [ ...str ].map(escapeRegex)
@@ -95,7 +95,7 @@ function splitSearchString ( search: string ): null | searchSplit {
 // making the regex less complex could make it faster ?
 function makeRegexString ( all: string[] ): string[] {
 	// todo ? or {0,2}
-	const matches = all.length === 1 ? [ all ] : all.map(( _v, i ) => replaceAtIndex(all, i, "[^\\s,.!?$]{0,2}"))
+	const matches = all.length === 1 ? [ all ] : [ all ].concat(all.map(( _v, i ) => replaceAtIndex(all, i, "[^\\s,.!?$]{0,2}")))
 	return matches.map(( word ) => word.join(""))
 }
 
