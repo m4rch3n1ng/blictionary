@@ -8,7 +8,7 @@ function init ( newEntries: smallEntry[] ) {
 }
 
 function search ( value: string ) {
-	const sorted = fuzzy(value, allEntries)
+	const sorted = fuzzy<smallEntry>(value, allEntries)
 	return sorted.slice(0, 10)
 }
 
