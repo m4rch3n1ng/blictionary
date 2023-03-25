@@ -1,11 +1,11 @@
 import { redirect } from "@sveltejs/kit"
-import type { smallEntry } from "$lib/entry"
+import { cache, type smallEntry } from "$lib/entry"
 import { fuzzy } from "$lib/search/fuzzy"
 import { slugify } from "$lib/markdown"
 import type { PageServerLoadEvent } from "./$types"
 
-export async function load ({ parent, url }: PageServerLoadEvent ) {
-	const { allEntries } = await parent()
+export async function load ({ url }: PageServerLoadEvent ) {
+	const allEntries = await cache.get()
 	const query = url.searchParams.get("q")
 
 	if (!query) {
