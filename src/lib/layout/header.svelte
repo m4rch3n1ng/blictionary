@@ -1,10 +1,8 @@
 <script lang="ts">
-	import type { smallEntry } from "$lib/entry"
 	import Icon from "./icon.svelte"
 	import LightDark from "./lightdark.svelte"
 	import Search from "./search.svelte"
 
-	export let allEntries: smallEntry[]
 	export let theme: string | undefined
 </script>
 
@@ -16,7 +14,7 @@
 	</div>
 
 	<div class="layout mid">
-		<Search {allEntries} />
+		<Search />
 	</div>
 
 	<div class="layout right">

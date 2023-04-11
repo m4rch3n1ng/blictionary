@@ -85,7 +85,7 @@ export function initMark ( allEntries: smallEntry[] ) {
 	}
 }
 
-function findEntry ( word: string, wordClass: string, allEntries: smallEntry[] ) {
+export function findEntry ( word: string, wordClass: string, allEntries: smallEntry[] ) {
 	const found = allEntries.find(( entry ) => (
 		entry.word === word && ( Array.isArray(entry.class) ? entry.class.includes(wordClass) : entry.class === wordClass )
 	))
