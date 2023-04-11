@@ -1,6 +1,4 @@
-import type { RequestEvent } from "./$types"
-
-export function GET ({ url }: RequestEvent ): Response {
+export function GET ({ url }): Response {
 	const nUrl = url.searchParams.get("url") || "/"
 	const theme = url.searchParams.get("theme")
 

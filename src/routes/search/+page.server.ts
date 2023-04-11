@@ -1,9 +1,8 @@
 import { redirect } from "@sveltejs/kit"
 import { filter as fuzzyFilter } from "fuzzyjs"
-import type { PageServerLoadEvent } from "./$types"
 import { slugify } from "$lib/markdown"
 
-export async function load ({ parent, url }: PageServerLoadEvent ) {
+export async function load ({ parent, url }) {
 	const { allEntries } = await parent()
 	const query = url.searchParams.get("q")
 

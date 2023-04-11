@@ -35,8 +35,8 @@
 			<Sun />
 		</div>
 	</button>
-	<input type="text" name="theme" value={invertTheme(init)} />
-	<input type="text" name="url" value={$page.url.href} />
+	<input hidden type="text" name="theme" value={invertTheme(init)} />
+	<input hidden type="text" name="url" value={$page.url.href} />
 </form>
 
 
@@ -44,10 +44,6 @@
 	.wrap {
 		display: flex;
 		align-items: center;
-	}
-
-	input {
-		display: none;
 	}
 
 	button {

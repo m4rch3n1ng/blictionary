@@ -1,6 +1,4 @@
-import type { PageLoadEvent } from "./$types"
-
-export function load ({ params }: PageLoadEvent ) {
+export function load ({ params }) {
 	return {
 		word: decodeURIComponent(params.name)
 	}

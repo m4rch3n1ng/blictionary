@@ -1,8 +1,7 @@
 <script lang="ts">
-	import type { PageData } from "./$types"
 	import Wrap from "$lib/view/wrap.svelte"
 
-	export let data: PageData
+	export let data
 </script>
 
 

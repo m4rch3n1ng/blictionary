@@ -1,12 +1,11 @@
 <script lang="ts">
-	import type { PageData } from "./$types"
 	import { initMark, wordClassToString, inlineMarkdown } from "$lib/markdown"
 	import Definitions from "$lib/view/definitions.svelte"
     import Wrap from "$lib/view/wrap.svelte"
     import MultiText from "$lib/view/multitext.svelte"
     import SubEntry from "$lib/view/subentry.svelte"
 
-	export let data: PageData
+	export let data
 	$: entry = data.entry
 
 	initMark(data.allEntries)

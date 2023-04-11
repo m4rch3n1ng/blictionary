@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { wordClassToString } from "$lib/markdown"
-    import Wrap from "$lib/view/wrap.svelte";
-	import type { PageData } from "../../routes/search/$types"
+    import Wrap from "$lib/view/wrap.svelte"
 
-	export let data: PageData
+	export let data
 </script>
 
 

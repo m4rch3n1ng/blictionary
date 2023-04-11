@@ -1,7 +1,6 @@
 import { fetchAllEntries } from "$lib/entry"
-import type { LayoutServerLoadEvent } from "./$types"
 
-export async function load ({ cookies }: LayoutServerLoadEvent ) {
+export async function load ({ cookies }) {
 	const allEntries = await fetchAllEntries()
 	return { allEntries, theme: cookies.get("theme") }
 }
