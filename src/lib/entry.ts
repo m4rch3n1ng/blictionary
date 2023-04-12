@@ -1,16 +1,7 @@
+import { z } from "zod"
 import { existsSync } from "node:fs"
 import { readFile, readdir } from "node:fs/promises"
 import { join as joinPath } from "node:path"
-
-export interface Entry {
-	word: string
-	class: string | string[]
-	pronounciation: Pronounciation
-	forms?: string | string[]
-	etymology: string | string[]
-	definitions: (Definition | TopDefinition)[]
-	sub?: SubEntry[]
-}
 
 interface Pronounciation {
 	rp: string
@@ -18,14 +9,14 @@ interface Pronounciation {
 	note?: string
 }
 
-export interface TopDefinition {
-	text?: string
-	sub: Definition[]
+export interface Definition {
+	text: string
 	quotes?: Quote[]
 }
 
-export interface Definition {
-	text: string
+export interface TopDefinition {
+	text?: string
+	sub: Definition[]
 	quotes?: Quote[]
 }
 
@@ -43,6 +34,58 @@ export interface Quote {
 	text: string
 	note?: string
 }
+
+export interface Entry {
+	word: string
+	class: string | string[]
+	pronounciation: Pronounciation
+	forms?: string | string[]
+	etymology: string | string[]
+	definitions: (Definition | TopDefinition)[]
+	sub?: SubEntry[]
+}
+
+const zPronounciation = z.object({
+	rp: z.string(),
+	us: z.string(),
+	note: z.string().optional()
+})
+
+const zQuote = z.object({
+	date: z.string(),
+	author: z.string(),
+	location: z.string(),
+	text: z.string(),
+	note: z.string().optional()
+})
+
+const zDefinition = z.object({
+	text: z.string(),
+	quotes: z.array(zQuote).optional(),
+})
+
+const zTopDefinition = z.object({
+	text: z.string().optional(),
+	sub: z.array(zDefinition).min(1),
+	quotes: z.array(zQuote).optional()
+})
+
+const zSubEntry = z.object({
+	word: z.string(),
+	class: z.union([ z.string(), z.array(z.string()).min(1) ]),
+	definition: z.string(),
+	quotes: z.array(zQuote).optional()
+})
+
+export const zEntry = z.object({
+	word: z.string(),
+	class: z.union([ z.string(), z.array(z.string()).min(1) ]),
+	pronounciation: zPronounciation,
+	forms: z.union([ z.string(), z.array(z.string()).min(1) ]).optional(),
+	etymology: z.union([ z.string(), z.array(z.string()).min(1) ]),
+	definitions: z.array(z.union([ zDefinition, zTopDefinition ])).min(1),
+	sub: z.array(zSubEntry).optional()
+})
 
 export function hasEntry ( id: string ) {
 	// todo validate entry

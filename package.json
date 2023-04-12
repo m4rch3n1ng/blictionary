@@ -15,7 +15,8 @@
 		"@sindresorhus/slugify": "^2.2.0",
 		"dotenv": "^16.0.3",
 		"fuzzyjs": "^5.0.1",
-		"marked": "^4.3.0"
+		"marked": "^4.3.0",
+		"zod": "^3.21.4"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-node": "^1.2.3",
