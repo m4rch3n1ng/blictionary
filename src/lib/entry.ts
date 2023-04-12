@@ -1,5 +1,5 @@
 import CheapWatch from "cheap-watch"
-import { existsSync, type Stats } from "node:fs"
+import type { Stats } from "node:fs"
 import { readFile, readdir } from "node:fs/promises"
 import { join as joinPath } from "node:path"
 import { gzip as gzipCb } from "node:zlib"
@@ -48,12 +48,6 @@ export interface Quote {
 	location: string
 	text: string
 	note?: string
-}
-
-export function hasEntry ( id: string ) {
-	// todo validate entry
-	const path = joinPath("entries", `${id}.json`)
-	return existsSync(path)
 }
 
 export async function getEntry ( id: string ): Promise<Entry> {
@@ -226,6 +220,10 @@ function entryCache () {
 
 	return {
 		get,
+		async has ( id: string ) {
+			await get()
+			return allEntryMap.has(id)
+		},
 		async zip () {
 			const nAllEntries = await get()
 			const zip = await gzip(JSON.stringify(nAllEntries))
