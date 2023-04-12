@@ -87,8 +87,33 @@ export const zEntry = z.object({
 	sub: z.array(zSubEntry).optional()
 })
 
+// todo do i want to fill empty spaces ?
+function nextId ( ids: number[] ) {
+	let curr = 1
+	for (const id of ids) {
+		if (id === 405 && curr === 403) {
+			curr = 405
+		} else if (id - curr > 1) {
+			return curr + 1 === 404 ? 405 : curr + 1
+		} else {
+			curr = id
+		}
+	}
+
+	return curr + 1 === 404 ? 405 : curr + 1
+}
+
+export async function nextEntry () {
+	const entries = await readdir("entries")
+
+	const fileIds = entries.filter(( str ) => str.endsWith(".json")).map(( str ) => str.slice(0, -5))
+	const ids = fileIds.map(( id ) => Number(id)).sort(( a, b ) => a - b)
+	const next = nextId(ids)
+
+	return next
+}
+
 export function hasEntry ( id: string ) {
-	// todo validate entry
 	const path = joinPath("entries", `${id}.json`)
 	return existsSync(path)
 }

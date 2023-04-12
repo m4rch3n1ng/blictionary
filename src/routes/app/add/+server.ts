@@ -1,5 +1,6 @@
-import { zEntry } from "$lib/entry.js"
+import { nextEntry, zEntry } from "$lib/entry"
 import { error, redirect } from "@sveltejs/kit"
+import { writeFile } from "fs/promises"
 import { ZodError } from "zod"
 
 export async function POST ({ request }) {
@@ -13,7 +14,10 @@ export async function POST ({ request }) {
 		const fileContent = await file.text()
 		const fileJson = JSON.parse(fileContent)
 
-		console.log(zEntry.parse(fileJson))
+		const parsedEntry = zEntry.parse(fileJson)
+		const next = await nextEntry()
+
+		await writeFile(`entries/${next}.json`, JSON.stringify(parsedEntry, null, "\t"))
 	} catch ( err ) {
 		handleError(err)
 	}
