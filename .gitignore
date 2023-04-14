@@ -12,3 +12,6 @@ pnpm-lock.yaml
 
 # entries
 entries/
+
+# .env
+.env

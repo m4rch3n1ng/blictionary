@@ -10,7 +10,11 @@ async function main () {
 	if (!existsSync(joinPath(buildPath, "entries"))) await mkdir(joinPath(buildPath, "entries"))
 
 	await cp(joinPath(__dirname, "dist"), joinPath(buildPath, "web"), { recursive: true })
-	await copyFile("LICENSE", joinPath(buildPath, "LICENSE"))
+	await copyFile(joinPath(__dirname, "LICENSE"), joinPath(buildPath, "LICENSE"))
+
+	await copyFile(joinPath(__dirname, "scripts", "start.sh"), joinPath(buildPath, "start.sh"))
+	await copyFile(joinPath(__dirname, "scripts", "stop.sh"), joinPath(buildPath, "stop.sh"))
+	await copyFile(joinPath(__dirname, ".env"), joinPath(buildPath, ".env"))
 
 	await writeFile(joinPath(buildPath, "package.json"), JSON.stringify({
 		name: pkg.name,
@@ -19,7 +23,7 @@ async function main () {
 		license: pkg.license,
 		main: "./web/index.js",
 		scripts: {
-			web: "node ."
+			web: "node -r dotenv/config ./web/index.js"
 		},
 		dependencies: pkg.dependencies,
 		type: "module",
