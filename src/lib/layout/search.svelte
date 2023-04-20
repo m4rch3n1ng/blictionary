@@ -1,16 +1,30 @@
 <script lang="ts">
 	import { get } from "svelte/store"
+    import { onMount } from "svelte"
+    import { ungzip } from "pako"
 	import { afterNavigate, goto } from "$app/navigation"
 	import { page } from "$app/stores"
+	import { search, initSearch, items } from "$lib/search/search"
 	import type { smallEntry } from "$lib/entry"
-	import { initSearch, items } from "$lib/search"
 	import SearchItem from "./search-item.svelte"
 
-	export let allEntries: smallEntry[]
-	const search = initSearch(allEntries)
-
 	let value = get(page).url.searchParams.get("q") || ""
-	search(value)
+
+	// todo extra file
+	onMount(async () => {
+		const data = await fetch("/app/zip")
+		const zip = await data.json()
+
+		const decoder = new TextDecoder()
+		const compressed = new Uint8Array(zip)
+		const decompress = ungzip(compressed)
+		const decode = decoder.decode(decompress)
+
+		const allEntries: smallEntry[] = JSON.parse(decode)
+
+		await initSearch(allEntries)
+		search(value)
+	})
 
 	let focus = false
 	function focusIn () {
@@ -55,7 +69,7 @@
 			<div class="input-container">
 				<form action="/search" class="input-layout">
 
-					<input bind:value on:input={( ev ) => search(ev.currentTarget.value)} on:focus={focusIn} on:focusin={focusIn} on:keydown={keydown}
+					<input bind:value on:input={( ev ) => search(ev.currentTarget.value)} maxlength=100 on:focus={focusIn} on:focusin={focusIn} on:keydown={keydown}
 						type="search"
 						name="q"
 						id="search-input"
@@ -74,7 +88,7 @@
 
 				<div id="search-result" class="dropdown-container {focus && value && $items.length ? "active" : "inactive"}">
 					<div class="dropdown {focus && value && $items.length ? "active" : "inactive"}">
-						{#each $items as { id, word, class: wordClass }}
+						{#each $items.slice(0, 10) as { id, word, class: wordClass }}
 							<SearchItem {id} {word} {wordClass} />
 						{/each}
 					</div>
